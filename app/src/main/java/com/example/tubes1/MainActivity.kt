@@ -8,11 +8,11 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
-        var stat: Int
 
         // var button
         val btnLogin_activity: Button = findViewById(R.id.selector_login)
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         btnRegister_activty.setOnClickListener {
             val move_to_register = Intent(this@MainActivity, RegisterActivity::class.java)
-            stat = 1
             startActivity(move_to_register)
         }
     }
