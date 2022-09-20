@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_home"
+        android:title="@string/Home"
+        android:icon="@drawable/ic_home_24"/>
+    <item
+        android:id="@+id/ic_deliv"
+        android:title="Delivery"
+        android:icon="@drawable/ic_delivery_24"/>
+    <item
+        android:id="@+id/ic_call"
+        android:title="Call Center"
+        android:icon="@drawable/ic_help_24"/>
+    <item
+        android:id="@+id/ic_profile"
+        android:title="@string/Profile"
+        android:icon="@drawable/ic_profile_24"/>
+    <item
+        android:id="@+id/ic_logout"
+        android:title="Log Out"
+        android:icon="@drawable/logout"/>
+
+
+</menu>

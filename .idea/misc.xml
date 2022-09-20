@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2005" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/drawable/bglayout.xml" value="0.175" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/drawable/button_shape.xml" value="0.2005" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2005" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/drawable/ic_user_24.xml" value="0.175" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/Code/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/drawable/button_shape.xml" value="0.178" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/drawable/ic_home_24.xml" value="0.178" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/drawable/ic_logout_ico.xml" value="0.2525" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/activity_main_menu.xml" value="0.291970802919708" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/fragment_delivery.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/fragment_help.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/layout/rv_item_deliv.xml" value="0.3614583333333333" />
+        <entry key="..\:/PBP_TUBES/bisa_semua_tinggal buat menu bottom dan menyelesaikan register/Code/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/copyProjekSetelahperubahanWarna1.2/Code/app/src/main/res/layout/activity_login.xml" value="0.3625" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/activity_main_menu.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/fragment_delivery.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/rv_item_deliv.xml" value="0.25" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/layout/rv_item_profile.xml" value="0.24895833333333334" />
+        <entry key="..\:/PBP_TUBES/menuju ugd2/Code/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

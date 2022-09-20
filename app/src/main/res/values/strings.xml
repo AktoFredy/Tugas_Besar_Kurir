@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Tubes1</string>
+    <string name="Home">Home</string>
+    <string name="Profile">Profile</string>
+    <string name="Help">Help</string>
+    <string name="Delivery">Delivery</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
