@@ -23,7 +23,8 @@ class splash_screen : AppCompatActivity() {
 //                finish()
             },1000)
         }else{
-            this.setContentView(R.layout.activity_main)
+            startActivity(Intent(this@splash_screen, MainActivity::class.java))
+            finish()
         }
 
 //        val prefs = getSharedPreferences("splash_screen_prefernce", MODE_PRIVATE)
