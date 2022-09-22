@@ -88,21 +88,6 @@
 
 
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_logout"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsbold"
-        android:text="btn Logout ini "
-        android:textSize="18sp"
-        app:icon="@drawable/logout"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_edit" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_edit"
         style="@style/Widget.Material3.Button"
