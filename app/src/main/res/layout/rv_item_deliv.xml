@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view1"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/blue"
+    app:cardBackgroundColor="@color/bottom"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     android:padding="4dp">
@@ -19,42 +19,94 @@
         android:layout_height="120dp"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/iv_kota"
-            android:layout_width="150dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_kota"-->
+        <!--            android:layout_width="150dp"-->
+        <!--            android:layout_height="90dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"/>-->
 
         <TextView
-            android:id="@+id/nama_kota"
+            android:id="@+id/nama_kota_asal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:text="Nama Kota"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_kota"
+            android:text="Kota Asal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/to__ab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:text="→"
+            android:fontFamily="@font/poppinsbold"
+            app:layout_constraintStart_toEndOf="@+id/nama_kota_asal"
+            app:layout_constraintEnd_toStartOf="@id/nama_kota_tujuan"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/nama_kota_tujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:text="Kota Tujuan"
+            app:layout_constraintStart_toEndOf="@+id/to__ab"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <TextView
+            android:id="@+id/nama_pengirim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Pengirim"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/nama_kota_asal"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/nama_penerima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Penerima"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/nama_kota_tujuan"
+            app:layout_constraintStart_toEndOf="@id/nama_pengirim" />
         <TextView
             android:id="@+id/biaya"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Biaya"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toTopOf="@id/nama_kota"
-            app:layout_constraintStart_toEndOf="@+id/iv_kota"/>
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="18dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/nama_pengirim"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/waktu"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/edtBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lama"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toTopOf="@+id/biaya"
-            app:layout_constraintStart_toEndOf="@id/iv_kota"/>
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toStartOf="@+id/delBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/delBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
