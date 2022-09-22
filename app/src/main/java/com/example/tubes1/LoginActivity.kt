@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
                     cekLogin = false
                 }
 
-                if((username == "admin" && password == "10778") || username == penampung_username && password == penampung_password){
+                if((username == "admin" && password == "10778") || username == penampung_username && password == penampung_password && !penampung_username.isEmpty() && !penampung_password.isEmpty()){
                     cekLogin = true
                 }else{
                     val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
