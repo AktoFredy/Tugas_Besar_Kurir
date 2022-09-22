@@ -81,13 +81,6 @@ class RVDummyAdapter(private val pengirimans: ArrayList<Pengiriman>, private val
     override fun getItemCount() = pengirimans.size
     inner class PengirimanHolder(var binding : RvItemDelivBinding) : RecyclerView.ViewHolder(binding.root)
 
-//    class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-////        val nama_kota : TextView = itemView.findViewById(R.id.nama_kota)
-////        val biaya : TextView = itemView.findViewById(R.id.biaya)
-////        val waktu : TextView = itemView.findViewById(R.id.waktu)
-////        val kota : ImageView = itemView.findViewById(R.id.iv_kota)
-//    }
-
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<Pengiriman>){
         pengirimans.clear()
