@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.tubes1.dataCrud.PengirimanDB
 import com.example.tubes1.databinding.ActivityMainBinding
 import com.example.tubes1.databinding.ActivityRegisterBinding
 
 class MainActivity : AppCompatActivity() {
+
     var binding : ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
