@@ -20,19 +20,20 @@ class EditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
+        supportActionBar?.setTitle("Pengirimman")
 
         binding = ActivityEditBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        //biayacost()
+        biayacost()
         setupView()
         setupListener()
     }
 
     fun biayacost(){
-        if(binding.inputKotaPenerima.toString() == "Jakarta"){
+        if(binding.inputKotaPenerima.editText?.text.toString() == "jakarta"){
             Biaya = 50000.00
-        }else if(binding.inputKotaPenerima.toString() == "Jogja"){
+        }else if(binding.inputKotaPenerima.editText?.text.toString() == "jogja"){
             Biaya = 20000.00
         }else{
             Biaya = 25000.00
