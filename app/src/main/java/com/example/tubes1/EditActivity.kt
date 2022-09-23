@@ -20,19 +20,19 @@ class EditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
+        supportActionBar?.setTitle("Pengirimman")
 
         binding = ActivityEditBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        //biayacost()
         setupView()
         setupListener()
     }
 
     fun biayacost(){
-        if(binding.inputKotaPenerima.toString() == "Jakarta"){
+        if(binding.inputKotaPenerima.editText?.text.toString() == "jakarta"){
             Biaya = 50000.00
-        }else if(binding.inputKotaPenerima.toString() == "Jogja"){
+        }else if(binding.inputKotaPenerima.editText?.text.toString() == "jogja"){
             Biaya = 20000.00
         }else{
             Biaya = 25000.00
@@ -60,6 +60,7 @@ class EditActivity : AppCompatActivity() {
 
     fun setupListener(){
         binding.btnSave.setOnClickListener{
+            biayacost()
             CoroutineScope(Dispatchers.IO).launch {
                 db.PengirimanDao().addPengiriman(
                     Pengiriman(0, binding.inputPengirim.editText?.text.toString(), binding.inputPenerima.editText?.text.toString(),
@@ -71,6 +72,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         binding.btnUpdate.setOnClickListener{
+            biayacost()
             CoroutineScope(Dispatchers.IO).launch {
                 db.PengirimanDao().updatePengiriman(
                     Pengiriman(idPengiriman, binding.inputPengirim.editText?.text.toString(), binding.inputPenerima.editText?.text.toString(),

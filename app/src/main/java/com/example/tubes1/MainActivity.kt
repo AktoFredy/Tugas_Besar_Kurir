@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
 //        btnLogin_activity.isClickable = false
 //        btnLogin_activity.isEnabled = false
 
-        binding?.selectorLogin?.isClickable = false
-        binding?.selectorLogin?.isEnabled = false
+//        binding?.selectorLogin?.isClickable = false
+//        binding?.selectorLogin?.isEnabled = false
 
         binding?.selectorLogin?.setOnClickListener {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))

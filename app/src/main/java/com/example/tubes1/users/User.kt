@@ -7,11 +7,11 @@ import java.util.*
 @Entity
 data class User (
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val idU: Int,
     val email: String,
     val username: String,
     val password: String,
-    val tanggalLahir: Date,
+    val tanggalLahir: String,
     val noTelepon: String
 
 )

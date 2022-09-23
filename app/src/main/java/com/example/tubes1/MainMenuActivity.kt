@@ -31,7 +31,7 @@ class MainMenuActivity : AppCompatActivity() {
                 R.id.ic_profile->replaceFragment(profileFragment)
                 R.id.ic_call->replaceFragment(helpFragment)
                 R.id.ic_deliv->replaceFragment(deliveryFragment)
-                R.id.ic_logout->logout()
+                //R.id.ic_logout->logout()
             }
             true
         }
@@ -45,14 +45,5 @@ class MainMenuActivity : AppCompatActivity() {
             }
         }
 
-        private fun logout(){
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainMenuActivity)
-            builder.setTitle("Log Out")
-            builder.setMessage("Are you sure want to exit?")
-                .setPositiveButton("Yes"){ dialog, which ->
-                    finishAndRemoveTask()
-                }
-                .show()
-        }
     }
 
