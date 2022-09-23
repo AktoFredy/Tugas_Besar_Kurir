@@ -38,40 +38,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_acc_title">
 
+                <TextView
+                    android:id="@+id/profileUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:text="Username" />
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:text="Username" />
+                <TextView
+                    android:id="@+id/profileEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textSize="16sp"
+                    android:layout_weight="1"
+                    android:text="Phone Number" />
 
-            <TextView
-                android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsregular"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:text="Phone Number" />
-
-            <TextView
-                android:id="@+id/nohp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsregular"
-                android:textStyle="italic"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:text="Email" />
+                <TextView
+                    android:id="@+id/profileNohp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textStyle="italic"
+                    android:textSize="16sp"
+                    android:layout_weight="1"
+                    android:text="Email" />
 
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_edit_2"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +86,7 @@
             app:layout_constraintTop_toBottomOf="@id/ly_acc1"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/rv_btnlogout"
+            android:id="@+id/rv_btnlogout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.Button"

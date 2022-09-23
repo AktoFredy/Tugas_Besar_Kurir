@@ -25,7 +25,6 @@ class EditActivity : AppCompatActivity() {
         binding = ActivityEditBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        biayacost()
         setupView()
         setupListener()
     }
@@ -61,6 +60,7 @@ class EditActivity : AppCompatActivity() {
 
     fun setupListener(){
         binding.btnSave.setOnClickListener{
+            biayacost()
             CoroutineScope(Dispatchers.IO).launch {
                 db.PengirimanDao().addPengiriman(
                     Pengiriman(0, binding.inputPengirim.editText?.text.toString(), binding.inputPenerima.editText?.text.toString(),
@@ -72,6 +72,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         binding.btnUpdate.setOnClickListener{
+            biayacost()
             CoroutineScope(Dispatchers.IO).launch {
                 db.PengirimanDao().updatePengiriman(
                     Pengiriman(idPengiriman, binding.inputPengirim.editText?.text.toString(), binding.inputPenerima.editText?.text.toString(),
