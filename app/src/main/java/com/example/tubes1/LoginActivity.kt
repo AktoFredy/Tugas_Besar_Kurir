@@ -57,12 +57,19 @@ class LoginActivity : AppCompatActivity() {
         }
         btnLogin_click.setOnClickListener (View.OnClickListener {
             var cekLogin = false
-            //mencari data dari server
-            getPembanding(inputUsername_lgn.editText?.text.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val user = dbU.userDao().getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
+                penampung_username = user.username
+                penampung_password = user.password
+                //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+            }
 
             val username: String = inputUsername_lgn.getEditText()?.getText().toString()
             val password: String = inputPassword_lgn.getEditText()?.getText().toString()
             // Toast.makeText(applicationContext, inputUsername_lgn.editText?.text.toString(), Toast.LENGTH_LONG).show()
+            //mencari data dari server
+            //getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
 
             if(username.isEmpty()){
                 inputUsername_lgn.setError("Username Tidak Boleh Kosong")
@@ -74,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
                 cekLogin = false
             }
 
-            if((username == "admin" && password == "10778") || (username == penampung_username && password == penampung_password)){
+            if(username == "admin" && password == "10778"){
                 cekLogin = true
                 var strUserName: String = penampung_username
                 var strPass: String = penampung_password
@@ -82,7 +89,19 @@ class LoginActivity : AppCompatActivity() {
                 editor.putString(usernameK, strUserName)
                 editor.putString(passK, strPass)
                 editor.apply()
-            }else{
+            }
+            if(username == penampung_username && password == penampung_password){
+                cekLogin = true
+                var strUserName: String = penampung_username
+                var strPass: String = penampung_password
+                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                editor.putString(usernameK, strUserName)
+                editor.putString(passK, strPass)
+                editor.apply()
+            }
+
+            if(username != penampung_username || password != penampung_password){
+                cekLogin = false
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
                 builder.setTitle("Salah Password atau Username")
                 builder.setMessage("Isikan Password dan Usrname yang benar!!")
@@ -108,13 +127,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun getPembanding(str: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            val user = dbU.userDao().getUser(str)[0]
-            penampung_username = user.username
-            penampung_password = user.password
-            Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-        }
-
-    }
+//    fun getPembanding(str: String){
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val user = dbU.userDao().getUser(str)[0]
+//            penampung_username = user.username
+//            penampung_password = user.password
+//            Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }
