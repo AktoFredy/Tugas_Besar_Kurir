@@ -1,14 +1,20 @@
 package com.example.tubes1
 
-import android.app.DatePickerDialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.tubes1.databinding.ActivityRegisterBinding
+import com.example.tubes1.notification.NotificationReceiver
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +36,12 @@ class RegisterActivity : AppCompatActivity() {
     private val passK = "passKey"
     var sharedPreferencesRegister: SharedPreferences? = null
 
+    //var notif
+    private val CHANNEL_ID_1 = "channel_notification_01"
+    private val CHANNEL_ID_2 = "channel_notification_02"
+    private val notificationId1 = 101
+    private val notificationId2 = 102
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_register)
@@ -39,6 +51,9 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(binding?.root)
         //==========================
+
+        //Create notification Channel
+        createNotificationChannelRegister()
 
         val move_to_login = Intent(this, LoginActivity::class.java)
 //        val regBundle = Bundle()
@@ -151,12 +166,66 @@ class RegisterActivity : AppCompatActivity() {
                 editor.putString(usernameK, strUserName)
                 editor.putString(passK, strPass)
                 editor.apply()
+
+                //pop notification
+                sendNotificationSucessRegister()
             }
 
             if(!checkRegister)return@OnClickListener
             startActivity(move_to_login)
         })
     }
+
+    private fun createNotificationChannelRegister(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val title = "Notification Title"
+            val descriptionText = "Notification Description"
+
+            val channel1 = NotificationChannel(CHANNEL_ID_1, title, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+
+            val channel2 = NotificationChannel(CHANNEL_ID_2, title, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel1)
+            notificationManager.createNotificationChannel(channel2)
+        }
+    }
+
+    private fun sendNotificationSucessRegister(){
+        val intent: Intent = Intent(this, RegisterActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val broadcastIntent: Intent = Intent(this, NotificationReceiver::class.java)
+        broadcastIntent.putExtra("toastMessage", binding?.inputUsername?.editText?.text.toString())
+        val actionIntent: PendingIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID_1)
+            .setSmallIcon(R.drawable.ic_done_all)
+            .setContentTitle("User: " + binding?.inputUsername?.editText?.text.toString() + " Berhasil Registrasi!!")
+            .setContentText("Terima kasih sudah menggunakan MyCourier!!")
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setStyle(NotificationCompat.BigPictureStyle()
+                .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.gambar_logo)))
+            .setColor(Color.BLUE)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(pendingIntent)
+            .addAction(R.mipmap.ic_launcher, "TOAST", actionIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationId1, builder.build())
+        }
+    }
+
     private fun updateEditText(){
         var temp : String
         val formatku = "MM/dd/yyyy"
