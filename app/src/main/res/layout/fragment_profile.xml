@@ -102,6 +102,23 @@
             app:icon="@drawable/ic_logout"
             app:iconGravity="textStart"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rv_btnDownload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppinsbold"
+            android:textSize="18dp"
+            android:text="Download"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:icon="@drawable/ic_baseline_download_24"
+            app:iconGravity="textStart"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
