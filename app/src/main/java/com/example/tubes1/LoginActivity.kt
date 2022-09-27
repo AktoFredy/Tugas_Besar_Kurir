@@ -1,13 +1,22 @@
 package com.example.tubes1
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.example.tubes1.databinding.ActivityMainBinding
+import com.example.tubes1.notification.NotificationReceiver
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +39,10 @@ class LoginActivity : AppCompatActivity() {
     private val usernameK = "usernameKey"
     private val passK = "passKey"
     var sharedPreferencesRegister: SharedPreferences? = null
+
+    private var binding: ActivityMainBinding? = null
+    private var CHANNEL_ID_1 = "channel_notification_01"
+    private val notificationId1 = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +126,12 @@ class LoginActivity : AppCompatActivity() {
             val move_to_home = Intent(this@LoginActivity, MainMenuActivity::class.java)
             startActivity(move_to_home)
         })
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
+
+        createNotificationChannel()
+        sendNotification1()
     }
 
     fun getBundle(){
@@ -124,6 +143,48 @@ class LoginActivity : AppCompatActivity() {
         }
         if (sharedPreferencesRegister!!.contains(passK)){
             inputPassword_lgn.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
+        }
+    }
+
+    private fun createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "Notification Title"
+            val descriptionText = "Notification Description"
+
+            val channel1 = NotificationChannel(CHANNEL_ID_1, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel1)
+        }
+    }
+
+    private fun sendNotification1(){
+        val intent : Intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val broadcastIntent : Intent = Intent(this, NotificationReceiver::class.java)
+        broadcastIntent.putExtra("toastMessage", R.id.username.toString())
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID_1)
+            .setSmallIcon(R.drawable.ic_done_all)
+            .setContentTitle("User: " + R.id.username.toString() + " Berhasil Login!!")
+            .setContentText("Terima kasih sudah menggunakan MyCourier!!")
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setColor(Color.BLUE)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(pendingIntent)
+            .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationId1, builder.build())
         }
     }
 
