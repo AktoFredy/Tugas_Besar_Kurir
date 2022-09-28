@@ -1,5 +1,6 @@
 package com.example.tubes1.fragments
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -35,6 +36,7 @@ import kotlinx.coroutines.launch
 import android.content.BroadcastReceiver
 import android.content.Context.NOTIFICATION_SERVICE
 import android.os.CountDownTimer
+import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemServiceName
 import com.example.tubes1.databinding.ActivityMainBinding
@@ -45,8 +47,12 @@ class ProfileFragment : Fragment() {
 
     //database
     val dbU by lazy { UserDB(requireActivity()) }
+
+    //channel init notification
     private var CHANNEL_ID_1 = "channel_notification_01"
+    private var CHANNEL_ID_2 = "channel_notification_02"
     private var notificationId1 = 101
+    private var notificationId2 = 102
 
     private var _binding: FragmentProfileBinding? = null
     // This property is only valid between onCreateView and
@@ -72,6 +78,8 @@ class ProfileFragment : Fragment() {
         val view = binding.root
         return view
 
+        createNotificationChannel()
+
     }
 
     override fun onDestroyView() {
@@ -93,8 +101,13 @@ class ProfileFragment : Fragment() {
             intentEdit(penampungID, 2)
         }
 
+        //pengunaan notification
         binding.rvBtnDownload.setOnClickListener{
             sendNotifiaction1()
+        }
+
+        binding.rvBtnPlayer.setOnClickListener{
+            sendNotifiaction2()
         }
     }
 
@@ -146,38 +159,77 @@ class ProfileFragment : Fragment() {
                 description = descriptionText
             }
 
+            val channel2 = NotificationChannel(CHANNEL_ID_2, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getActivity()?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel1)
+            notificationManager.createNotificationChannel(channel2)
         }
     }
 
     private fun sendNotifiaction1(){
-        val intent: Intent = Intent(this,MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this,0,intent,0)
+        val progressMax = 100
+        var progress: Int = 0
 
-        val broadcastIntent: Intent = Intent(this,NotificationReceiver::class.java)
-        broadcastIntent.putExtra("toastMessage", R.id.username.toString())
-        val actionIntent = PendingIntent.getBroadcast(this,0,broadcastIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val builder = NotificationCompat.Builder(this,CHANNEL_ID_1)
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(requireActivity(), CHANNEL_ID_1)
             .setSmallIcon(R.drawable.ic_baseline_download_24)
-            .setContentTitle("title")
-            .setContentText("Notification Progress bar")
-            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setColor(Color.BLUE)
-            .setAutoCancel(true)
-            .setOnlyAlertOnce(true)
-            .setContentIntent(pendingIntent)
-            .addAction(R.mipmap.ic_launcher,"Toast",actionIntent)
+            .setContentTitle("Download")
+            .setContentText("Download in Progress")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .setProgress(progressMax, 0, false)
 
-        with(NotificationManagerCompat.from(this)){
-            notify(notificationId1,builder.build())
+
+        with(NotificationManagerCompat.from(requireActivity())){
+            notify(notificationId1, builder.build())
         }
+        Thread(Runnable {
+            run(){
+                SystemClock.sleep(2000)
+                while (progress <= progressMax){
+                    progress += 10
+                    builder.setProgress(progressMax, progress, false)
+                    with(NotificationManagerCompat.from(requireActivity())){
+                        notify(notificationId1, builder.build())
+                        SystemClock.sleep(1000)
+                    }
+                }
+                builder.setContentText("Download Finised")
+                    .setProgress(0,0, false)
+                    .setOngoing(false)
+                with(NotificationManagerCompat.from(requireActivity())){
+                    notify(notificationId1, builder.build())
+                    SystemClock.sleep(1000)
+                }
+            }
+        }).start()
     }
 
+    private fun sendNotifiaction2(){
+        val art = BitmapFactory.decodeResource(getResources(), R.drawable.whiteeye)
+
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(requireActivity(), CHANNEL_ID_1)
+            .setSmallIcon(R.drawable.ic_music_note)
+            .setContentTitle("Music Player Example")
+            .setContentText("Running Songs...")
+            .setLargeIcon(art)
+            .addAction(R.drawable.ic_surround_sound, "EnableSourround", null)
+            .addAction(R.drawable.ic_previous, "Previous", null)
+            .addAction(R.drawable.ic_play, "Play", null)
+            .addAction(R.drawable.ic_stop, "Stop", null)
+            .addAction(R.drawable.ic_next, "Next", null)
+            .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(1, 2, 3))
+            .setSubText("Pyaing Example")
+
+
+        with(NotificationManagerCompat.from(requireActivity())){
+            notify(notificationId1, builder.build())
+        }
+    }
 }

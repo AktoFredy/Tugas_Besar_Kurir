@@ -204,7 +204,7 @@ class RegisterActivity : AppCompatActivity() {
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val broadcastIntent: Intent = Intent(this, NotificationReceiver::class.java)
-        broadcastIntent.putExtra("toastMessage", binding?.inputUsername?.editText?.text.toString())
+        broadcastIntent.putExtra("toastMessage", "Terima kasih sudah Register")
         val actionIntent: PendingIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_1)

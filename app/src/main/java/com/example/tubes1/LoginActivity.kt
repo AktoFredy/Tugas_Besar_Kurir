@@ -6,6 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +17,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.tubes1.databinding.ActivityMainBinding
 import com.example.tubes1.notification.NotificationReceiver
 import com.google.android.material.textfield.TextInputLayout
@@ -40,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
     private val passK = "passKey"
     var sharedPreferencesRegister: SharedPreferences? = null
 
-    private var binding: ActivityMainBinding? = null
     private var CHANNEL_ID_1 = "channel_notification_01"
     private val notificationId1 = 101
 
@@ -71,12 +73,17 @@ class LoginActivity : AppCompatActivity() {
         btnLogin_click.setOnClickListener (View.OnClickListener {
             var cekLogin = false
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val user = dbU.userDao().getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
-                penampung_username = user.username
-                penampung_password = user.password
-                //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+//            CoroutineScope(Dispatchers.IO).launch {
+//                val user = dbU.userDao().getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
+//                penampung_username = user.username
+//                penampung_password = user.password
+//                //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+//            }
+            //implementation lifecycle
+            lifecycleScope.launch {
+                getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
             }
+
 
             val username: String = inputUsername_lgn.getEditText()?.getText().toString()
             val password: String = inputPassword_lgn.getEditText()?.getText().toString()
@@ -111,6 +118,8 @@ class LoginActivity : AppCompatActivity() {
                 editor.putString(usernameK, strUserName)
                 editor.putString(passK, strPass)
                 editor.apply()
+                createNotificationChannel()
+                sendNotification1()
             }
 
             if(username != penampung_username || password != penampung_password){
@@ -126,12 +135,6 @@ class LoginActivity : AppCompatActivity() {
             val move_to_home = Intent(this@LoginActivity, MainMenuActivity::class.java)
             startActivity(move_to_home)
         })
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-
-        createNotificationChannel()
-        sendNotification1()
     }
 
     fun getBundle(){
@@ -171,29 +174,36 @@ class LoginActivity : AppCompatActivity() {
         broadcastIntent.putExtra("toastMessage", R.id.username.toString())
         val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val icon: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.arigatou)
+
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_1)
-            .setSmallIcon(R.drawable.ic_done_all)
-            .setContentTitle("User: " + R.id.username.toString() + " Berhasil Login!!")
+            .setSmallIcon(R.drawable.ic_login)
+            .setContentTitle("User: " + inputUsername_lgn.getEditText()?.getText().toString() + " Berhasil Login!!")
             .setContentText("Terima kasih sudah menggunakan MyCourier!!")
+            .setLargeIcon(icon)
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(getString(R.string.terimakasihLogin))
+                .setBigContentTitle("Terima kasih kakak")
+                .setSummaryText("Username: " + inputUsername_lgn.getEditText()?.getText().toString()))
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setColor(Color.BLUE)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setColor(Color.RED)
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
-            .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .addAction(R.mipmap.ic_launcher, "TOAST", actionIntent)
 
         with(NotificationManagerCompat.from(this)){
             notify(notificationId1, builder.build())
         }
     }
 
-//    fun getPembanding(str: String){
-//        CoroutineScope(Dispatchers.Main).launch {
-//            val user = dbU.userDao().getUser(str)[0]
-//            penampung_username = user.username
-//            penampung_password = user.password
-//            Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    fun getPembanding(str: String){
+        CoroutineScope(Dispatchers.Main).launch {
+            val user = dbU.userDao().getUser(str)[0]
+            penampung_username = user.username
+            penampung_password = user.password
+            //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+        }
+    }
 }
