@@ -8,10 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#850FC8</color>
-    <color name="bottom">#E09B9B</color>
+    <color name="bottom">#FFD0D0</color>
     <color name="colcard">#D570F1</color>
     <color name="gray">#656565</color>
     <color name="red">#DA182E</color>
     <color name="blue">#0040FF</color>
     <color name="green">#13E828</color>
+    <color name="wt2">#E4E4E4</color>
 </resources>

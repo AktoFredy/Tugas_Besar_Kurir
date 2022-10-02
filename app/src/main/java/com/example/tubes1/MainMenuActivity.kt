@@ -9,6 +9,7 @@ import com.example.tubes1.fragments.HelpFragment
 import com.example.tubes1.fragments.HomeFragment
 import com.example.tubes1.fragments.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
 
 class MainMenuActivity : AppCompatActivity() {
@@ -24,8 +25,8 @@ class MainMenuActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         replaceFragment(homeFragment)
-        val bottom: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottom.setOnNavigationItemSelectedListener {
+        val bottom: NavigationBarView = findViewById(R.id.bottom_navigation)
+        bottom.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_profile->replaceFragment(profileFragment)
