@@ -14,8 +14,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     android:background="@color/bottom"
-    app:itemIconTint="@color/white"
-    app:itemTextColor="@color/white"
+    android:elevation="3dp"
     app:labelVisibilityMode="labeled"
     app:menu="@menu/bottom_menu"/>
 

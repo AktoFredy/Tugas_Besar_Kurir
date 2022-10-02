@@ -17,6 +17,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.isEmpty
 import androidx.lifecycle.lifecycleScope
 import com.example.tubes1.databinding.ActivityMainBinding
 import com.example.tubes1.notification.NotificationReceiver
@@ -73,16 +74,19 @@ class LoginActivity : AppCompatActivity() {
         btnLogin_click.setOnClickListener (View.OnClickListener {
             var cekLogin = false
 
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val user = dbU.userDao().getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
-//                penampung_username = user.username
-//                penampung_password = user.password
-//                //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-//            }
-            //implementation lifecycle
-            lifecycleScope.launch {
-                getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
+            if (inputUsername_lgn.getEditText()?.getText().toString() != ""){
+                CoroutineScope(Dispatchers.IO).launch {
+                    val user = dbU.userDao()
+                        .getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
+                    penampung_username = user.username
+                    penampung_password = user.password
+                    //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+                }
             }
+            //implementation lifecycle
+//            lifecycleScope.launch {
+//                getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
+//            }
 
 
             val username: String = inputUsername_lgn.getEditText()?.getText().toString()
@@ -110,7 +114,8 @@ class LoginActivity : AppCompatActivity() {
                 editor.putString(passK, strPass)
                 editor.apply()
             }
-            if(username == penampung_username && password == penampung_password){
+
+            if(username == penampung_username && password == penampung_password && (penampung_username != "" || penampung_password != "")){
                 cekLogin = true
                 var strUserName: String = penampung_username
                 var strPass: String = penampung_password
@@ -122,11 +127,11 @@ class LoginActivity : AppCompatActivity() {
                 sendNotification1()
             }
 
-            if(username != penampung_username || password != penampung_password){
+            if(username != penampung_username || password != penampung_password || penampung_username == "" || penampung_password == ""){
                 cekLogin = false
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
                 builder.setTitle("Salah Password atau Username")
-                builder.setMessage("Isikan Password dan Usrname yang benar!!")
+                builder.setMessage("Isikan Password dan Username yang benar!!")
                     .setPositiveButton("Yes"){ dialog, which ->
                     }
                     .show()
@@ -198,12 +203,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun getPembanding(str: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            val user = dbU.userDao().getUser(str)[0]
-            penampung_username = user.username
-            penampung_password = user.password
-            //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-        }
-    }
+//    fun getPembanding(str: String){
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val user = dbU.userDao().getUser(str)[0]
+//            penampung_username = user.username
+//            penampung_password = user.password
+//            //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }
