@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.example.tubes1.fragments.DeliveryFragment
-import com.example.tubes1.fragments.HelpFragment
-import com.example.tubes1.fragments.HomeFragment
-import com.example.tubes1.fragments.ProfileFragment
+import com.example.tubes1.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -17,6 +14,7 @@ class MainMenuActivity : AppCompatActivity() {
     private val profileFragment = ProfileFragment()
     private val helpFragment = HelpFragment()
     private val deliveryFragment = DeliveryFragment()
+    private val gudangFragment = GudangFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +30,7 @@ class MainMenuActivity : AppCompatActivity() {
                 R.id.ic_profile->replaceFragment(profileFragment)
                 R.id.ic_call->replaceFragment(helpFragment)
                 R.id.ic_deliv->replaceFragment(deliveryFragment)
-                //R.id.ic_logout->logout()
+                R.id.ic_gudang->replaceFragment(gudangFragment)
             }
             true
         }

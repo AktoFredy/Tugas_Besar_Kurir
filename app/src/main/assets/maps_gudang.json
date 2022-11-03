@@ -1,0 +1,45 @@
+{
+  "results": [
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.779433,
+          "lng": 110.415782
+        }
+      },
+      "name": "(Mitra) Kampus 3 Universitas Atma Jaya Yogyakarta",
+      "vicinity": "Jl. Babarsari No.43, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.67345,
+          "lng": 110.61605
+        }
+      },
+      "name": "Gudang Klaten",
+      "vicinity": "Gelang, Rt. 10, Rw. 03, Mayungan, Ngawen, Klaten 546766"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.777114831563387,
+          "lng": 110.41348587939001
+        }
+      },
+      "name": "Gudang Yogyakarta",
+      "vicinity": "Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -6.19640,
+          "lng": 106.84921
+        }
+      },
+      "name": "Gudang Jakarta",
+      "vicinity": "Jl. Pangeran Diponegoro No.74, RT.2/RW.6, Kenari, Kec. Senen, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10430"
+    }
+  ],
+  "status": "OK"
+}

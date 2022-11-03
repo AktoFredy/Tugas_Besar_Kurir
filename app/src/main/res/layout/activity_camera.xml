@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Camera_Activity">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/FLCamera"/>
+
+    <LinearLayout
+        android:id="@+id/ly_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:layout_gravity="center|bottom">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnCloseCamera"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ic_action_close"
+            android:backgroundTint="@color/white"
+            android:layout_margin="4dp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnSwitchCamera"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ic_cameraswitch"
+            android:backgroundTint="@color/white"
+            android:layout_margin="4dp"/>
+    </LinearLayout>
+
+</FrameLayout>

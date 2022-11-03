@@ -40,6 +40,10 @@ import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemServiceName
 import com.example.tubes1.databinding.ActivityMainBinding
+import android.hardware.Camera
+import android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK
+import android.util.Log
+import java.io.IOException
 
 
 class ProfileFragment : Fragment() {
@@ -92,6 +96,10 @@ class ProfileFragment : Fragment() {
 
         getspData()
         getProfileData(tvUsername.toString())
+
+        binding.cameraButton.setOnClickListener{
+            openCamera()
+        }
 
         binding.rvBtnlogout2.setOnClickListener{
             logout()
@@ -149,6 +157,11 @@ class ProfileFragment : Fragment() {
         )
     }
 
+    fun openCamera(){
+        startActivity(
+            Intent(requireActivity().applicationContext, Camera_Activity::class.java)
+        )
+    }
 
     private fun createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

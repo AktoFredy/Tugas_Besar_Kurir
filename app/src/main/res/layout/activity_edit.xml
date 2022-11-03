@@ -57,7 +57,7 @@
                 android:id="@+id/input_kota_pengirim"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:backgroundTint="@color/primary"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
@@ -65,17 +65,19 @@
                 android:hint="Kota Pengirim"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_city">
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteKotaPengirim"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
+                    android:layout_weight="1"
+                    android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/input_kota_penerima"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:backgroundTint="@color/primary"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
@@ -83,10 +85,16 @@
                 android:hint="Kota Penerima"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_city">
-                <com.google.android.material.textfield.TextInputEditText
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text"/>-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteKotaPenerima"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
+                    android:layout_weight="1"
+                    android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

@@ -3,6 +3,7 @@ package com.example.tubes1
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import com.example.tubes1.dataCrud.CrudCons
 import com.example.tubes1.dataCrud.Pengiriman
 import com.example.tubes1.dataCrud.PengirimanDB
@@ -23,16 +24,25 @@ class EditActivity : AppCompatActivity() {
         supportActionBar?.setTitle("Pengirimman")
 
         binding = ActivityEditBinding.inflate(layoutInflater)
+
         val view = binding.root
         setContentView(view)
         setupView()
         setupListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val kotaPenerima = resources.getStringArray(R.array.kotaPenerima)
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, kotaPenerima)
+        binding.autoCompleteKotaPenerima.setAdapter(arrayAdapter)
+        binding.autoCompleteKotaPengirim.setAdapter(arrayAdapter)
+    }
+
     fun biayacost(){
-        if(binding.inputKotaPenerima.editText?.text.toString() == "jakarta"){
+        if(binding.inputKotaPenerima.editText?.text.toString() == "Jakarta"){
             Biaya = 50000.00
-        }else if(binding.inputKotaPenerima.editText?.text.toString() == "jogja"){
+        }else if(binding.inputKotaPenerima.editText?.text.toString() == "Yogyakarta"){
             Biaya = 20000.00
         }else{
             Biaya = 25000.00
@@ -91,8 +101,8 @@ class EditActivity : AppCompatActivity() {
             binding.inputPengirim.getEditText()?.setText(pengirimans.namaPengirim)
             binding.inputPenerima.getEditText()?.setText(pengirimans.namaPenerima)
             binding.inputIsiKiriman.getEditText()?.setText(pengirimans.desBarang)
-            binding.inputKotaPengirim.getEditText()?.setText(pengirimans.kotaAsal)
-            binding.inputKotaPenerima.getEditText()?.setText(pengirimans.kotaTujuan)
+            //binding.inputKotaPengirim.getEditText()?.setText(pengirimans.kotaAsal)
+            //binding.inputKotaPenerima.getEditText()?.setText(pengirimans.kotaTujuan)
             binding.inputAlamatLengkap.getEditText()?.setText(pengirimans.alamatLengkap)
         }
     }

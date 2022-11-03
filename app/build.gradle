@@ -61,6 +61,9 @@ dependencies {
     //lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
+    //maps
+    implementation 'org.osmdroid:osmdroid-android:6.1.11'
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
