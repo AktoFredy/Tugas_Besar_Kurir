@@ -39,6 +39,56 @@
       },
       "name": "Gudang Jakarta",
       "vicinity": "Jl. Pangeran Diponegoro No.74, RT.2/RW.6, Kenari, Kec. Senen, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10430"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -6.99733156849764,
+          "lng": 110.37229022396177
+        }
+      },
+      "name": "Gudang Semarang",
+      "vicinity": "Kembangarum, Kec. Semarang Barat, Kota Semarang, Jawa Tengah"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -6.9594079488524185,
+          "lng":  107.64230612641647
+        }
+      },
+      "name": "Gudang Bandung",
+      "vicinity": "Kujangsari, Kec. Bandung Kidul, Kota Bandung, Jawa Barat"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.473749576044948,
+          "lng":   110.21901124111045
+        }
+      },
+      "name": "Gudang Magelang",
+      "vicinity": "Jl. Poncol, Gelangan, Kec. Magelang Tengah, Kota Magelang, Jawa Tengah 56112"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -3.330310,
+          "lng":  114.597695
+        }
+      },
+      "name": "Gudang Banjarmasin",
+      "vicinity": "Jl. Sejahtera III 2, Kelayan Luar, Kec. Banjarmasin Tengah, Kota Banjarmasin, Kalimantan Selatan 70234"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.878243776840653,
+          "lng":  111.46572967730928
+        }
+      },
+      "name": "Gudang Ponorogo",
+      "vicinity": "Jl. Jend. Ahmad Yani No.58, Krajan, Kepatihan, Kec. Ponorogo, Kabupaten Ponorogo, Jawa Timur 63416"
     }
   ],
   "status": "OK"
