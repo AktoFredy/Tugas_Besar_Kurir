@@ -89,6 +89,56 @@
       },
       "name": "Gudang Ponorogo",
       "vicinity": "Jl. Jend. Ahmad Yani No.58, Krajan, Kepatihan, Kec. Ponorogo, Kabupaten Ponorogo, Jawa Timur 63416"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -5.150556568233225,
+          "lng": 119.41975878109936
+        }
+      },
+      "name": "Gudang Makassar",
+      "vicinity": "Jl. Kijang No.50, Maricaya, Kec. Makassar, Kota Makassar, Sulawesi Selatan 90142"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -0.9572232438971746,
+          "lng": 100.40219102659219
+        }
+      },
+      "name": "Gudang Padang",
+      "vicinity": "Jl. Raya Lubuk Begalung, Lubuk Begalung Nan XX, Kec. Lubuk Begalung, Kota Padang, Sumatera Barat 25155 "
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.229229681324252,
+          "lng": 112.69184987946716
+        }
+      },
+      "name": "Gudang Surabaya",
+      "vicinity": "Jl. Kalianak Barat 112-106, Kalianak, Kec. Asem Rowo, Kota SBY, Jawa Timur 60183"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -8.78260961199499,
+          "lng": 115.17323775217115
+        }
+      },
+      "name": "Gudang Bali",
+      "vicinity": "Jl. Uluwatu II No.4, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": 1.1175600708901898,
+          "lng": 104.02978615107806
+        }
+      },
+      "name": "Gudang Batam",
+      "vicinity": "Jl. Karangetang, Taman Baloi, Kec. Batam Kota, Kota Batam, Kepulauan Riau 29444"
     }
   ],
   "status": "OK"
