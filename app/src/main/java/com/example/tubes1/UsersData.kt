@@ -9,4 +9,5 @@ class UsersData (
     @SerializedName("userpassword") val password:String,
     @SerializedName("tanggalLahir") val tanggalLahir:String,
     @SerializedName("noTelepon") val noTelepon:String,
+    @SerializedName("userfoto") val userfoto:String,
 )

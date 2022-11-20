@@ -4,6 +4,8 @@ import com.example.tubes1.ResponseCreate
 import com.example.tubes1.ResponseDataPengiriman
 import com.example.tubes1.ResponseDataUsers
 import com.example.tubes1.ResponseLogin
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -86,4 +88,12 @@ interface apiPengiriman {
         @Query("username") username: String,
         @Query("userpassword") userpassword: String,
     ):Call<ResponseLogin>
+
+    @Multipart
+    @POST("upload/{idU}")
+    fun uploadUserImage(
+        @Path("idU") idU: Int?,
+        @Part userfoto: MultipartBody.Part,
+        @Part("_method") _method:RequestBody
+    ):Call<ResponseCreate>
 }

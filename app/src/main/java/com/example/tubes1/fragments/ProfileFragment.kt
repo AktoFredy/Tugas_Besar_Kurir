@@ -43,6 +43,7 @@ import com.example.tubes1.databinding.ActivityMainBinding
 import android.hardware.Camera
 import android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK
 import android.util.Log
+import com.bumptech.glide.Glide
 import com.example.tubes1.client.server
 import com.example.tubes1.userSharedPreferences.PrefManager
 import retrofit2.Call
@@ -102,8 +103,13 @@ class ProfileFragment : Fragment() {
         getspData()
         getProfileData(tvUsername.toString())
 
-        binding.cameraButton.setOnClickListener{
-            openCamera()
+        binding.profileImage.setOnClickListener{
+//            openCamera()
+
+            //edited
+            startActivity(Intent(requireActivity(), BufferSelectImage::class.java).apply {
+                putExtra("idU", penampungID)
+            })
         }
 
         binding.rvBtnlogout2.setOnClickListener{
@@ -152,6 +158,10 @@ class ProfileFragment : Fragment() {
                         binding.profileEmail.setText(listUsers[0].email)
                         binding.profileNohp.setText(listUsers[0].noTelepon)
                         penampungID = listUsers[0].idU
+
+                        Glide.with(requireContext())
+                            .load("${server.BASE_URL+"uploads/" + listUsers[0].userfoto}")
+                            .into(binding.profileImage)
                     }else{
                         for (item in listUsers){
                             if (item.username == tvUsername){
@@ -159,6 +169,10 @@ class ProfileFragment : Fragment() {
                                 binding.profileEmail.setText(item.email)
                                 binding.profileNohp.setText(item.noTelepon)
                                 penampungID = item.idU
+
+                                Glide.with(requireContext())
+                                    .load("${server.BASE_URL+"uploads/" + item.userfoto}")
+                                    .into(binding.profileImage)
                             }
                         }
                     }
