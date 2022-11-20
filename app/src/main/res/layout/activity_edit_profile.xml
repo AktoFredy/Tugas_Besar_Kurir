@@ -32,6 +32,7 @@
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_email_24">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"/>
@@ -50,6 +51,7 @@
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_user_24">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"/>
@@ -68,6 +70,7 @@
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_lock_24">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -86,6 +89,7 @@
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_lock_24">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -104,6 +108,7 @@
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_call_24">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTlp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"/>

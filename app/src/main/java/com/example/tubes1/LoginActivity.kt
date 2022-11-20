@@ -19,24 +19,35 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isEmpty
 import androidx.lifecycle.lifecycleScope
+import com.example.tubes1.client.server
+import com.example.tubes1.databinding.ActivityLoginBinding
 import com.example.tubes1.databinding.ActivityMainBinding
 import com.example.tubes1.notification.NotificationReceiver
+import com.example.tubes1.userSharedPreferences.PrefManager
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var inputUsername_lgn: TextInputLayout
-    private lateinit var inputPassword_lgn: TextInputLayout
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var prefManager: PrefManager
+
+
+//    private lateinit var inputUsername_lgn: TextInputLayout
+//    private lateinit var inputPassword_lgn: TextInputLayout
     //lateinit var temp_regBundle: Bundle
 
-    lateinit var penampung_username: String
-    lateinit var penampung_password: String
+//    lateinit var penampung_username: String
+//    lateinit var penampung_password: String
 
     //database
-    val dbU by lazy { UserDB(this) }
+//    val dbU by lazy { UserDB(this) }
 
     //Shared Preference for login and register
     private val myPreference = "myPref"
@@ -49,97 +60,111 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+//        setContentView(R.layout.activity_login)
+        setContentView(binding.root)
 
-        inputUsername_lgn = findViewById(R.id.username)
-        inputPassword_lgn = findViewById(R.id.password)
-        val btnBack_ly2: ImageView = findViewById(R.id.btnBack_ly2)
-        val sign_up_click: Button = findViewById(R.id.register_click)
-        val btnLogin_click: Button = findViewById(R.id.btnLogin)
+        prefManager = PrefManager(this)
+
+
+
+//        inputUsername_lgn = findViewById(R.id.username)
+//        inputPassword_lgn = findViewById(R.id.password)
+//        val btnBack_ly2: ImageView = findViewById(R.id.btnBack_ly2)
+//        val sign_up_click: Button = findViewById(R.id.register_click)
+//        val btnLogin_click: Button = findViewById(R.id.btnLogin)
 
         getBundle()
-        penampung_username=""
-        penampung_password=""
+//        penampung_username=""
+//        penampung_password=""
 
-        sign_up_click.setOnClickListener {
+        //==================================================================================================
+        binding.registerClick.setOnClickListener {
             val move_to_register1 = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(move_to_register1)
         }
 
-        btnBack_ly2.setOnClickListener {
+        binding.btnBackLy2.setOnClickListener {
             val move_to_main2 = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(move_to_main2)
         }
-        btnLogin_click.setOnClickListener (View.OnClickListener {
-            var cekLogin = false
+        //==================================================================================================
 
-            if (inputUsername_lgn.getEditText()?.getText().toString() != ""){
-                CoroutineScope(Dispatchers.IO).launch {
-                    val user = dbU.userDao()
-                        .getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
-                    penampung_username = user.username
-                    penampung_password = user.password
-                    //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-                }
-            }
+        //==================================================================
+//        btnLogin_click.setOnClickListener (View.OnClickListener {
+//            var cekLogin = false
+
+//            if (inputUsername_lgn.getEditText()?.getText().toString() != ""){
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    val user = dbU.userDao()
+//                        .getUser(inputUsername_lgn.getEditText()?.getText().toString())[0]
+//                    penampung_username = user.username
+//                    penampung_password = user.password
+//                    //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
+//                }
+//            }
             //implementation lifecycle
 //            lifecycleScope.launch {
 //                getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
 //            }
 
 
-            val username: String = inputUsername_lgn.getEditText()?.getText().toString()
-            val password: String = inputPassword_lgn.getEditText()?.getText().toString()
+//            val username: String = inputUsername_lgn.getEditText()?.getText().toString()
+//            val password: String = inputPassword_lgn.getEditText()?.getText().toString()
             // Toast.makeText(applicationContext, inputUsername_lgn.editText?.text.toString(), Toast.LENGTH_LONG).show()
             //mencari data dari server
             //getPembanding(inputUsername_lgn.getEditText()?.getText().toString())
 
-            if(username.isEmpty()){
-                inputUsername_lgn.setError("Username Tidak Boleh Kosong")
-                cekLogin = false
-            }
+//            if(username.isEmpty()){
+//                inputUsername_lgn.setError("Username Tidak Boleh Kosong")
+//                cekLogin = false
+//            }
+//
+//            if(password.isEmpty()){
+//                inputPassword_lgn.setError("Password Tidak Boleh Kosong")
+//                cekLogin = false
+//            }
 
-            if(password.isEmpty()){
-                inputPassword_lgn.setError("Password Tidak Boleh Kosong")
-                cekLogin = false
-            }
+//            if(username == "admin" && password == "10778"){
+//                cekLogin = true
+//                var strUserName: String = penampung_username
+//                var strPass: String = penampung_password
+//                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+//                editor.putString(usernameK, strUserName)
+//                editor.putString(passK, strPass)
+//                editor.apply()
+//            }
 
-            if(username == "admin" && password == "10778"){
-                cekLogin = true
-                var strUserName: String = penampung_username
-                var strPass: String = penampung_password
-                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
-                editor.putString(usernameK, strUserName)
-                editor.putString(passK, strPass)
-                editor.apply()
-            }
+//            if(username == penampung_username && password == penampung_password && (penampung_username != "" || penampung_password != "")){
+//                cekLogin = true
+//                var strUserName: String = penampung_username
+//                var strPass: String = penampung_password
+//                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+//                editor.putString(usernameK, strUserName)
+//                editor.putString(passK, strPass)
+//                editor.apply()
+//                createNotificationChannel()
+//                sendNotification1()
+//            }
+//
+//            if(username != penampung_username || password != penampung_password || penampung_username == "" || penampung_password == ""){
+//                cekLogin = false
+//                val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
+//                builder.setTitle("Salah Password atau Username")
+//                builder.setMessage("Isikan Password dan Username yang benar!!")
+//                    .setPositiveButton("Yes"){ dialog, which ->
+//                    }
+//                    .show()
+//            }
+//            if(!cekLogin)return@OnClickListener
+//            val move_to_home = Intent(this@LoginActivity, MainMenuActivity::class.java)
+//            startActivity(move_to_home)
+//        })
 
-            if(username == penampung_username && password == penampung_password && (penampung_username != "" || penampung_password != "")){
-                cekLogin = true
-                var strUserName: String = penampung_username
-                var strPass: String = penampung_password
-                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
-                editor.putString(usernameK, strUserName)
-                editor.putString(passK, strPass)
-                editor.apply()
-                createNotificationChannel()
-                sendNotification1()
-            }
-
-            if(username != penampung_username || password != penampung_password || penampung_username == "" || penampung_password == ""){
-                cekLogin = false
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
-                builder.setTitle("Salah Password atau Username")
-                builder.setMessage("Isikan Password dan Username yang benar!!")
-                    .setPositiveButton("Yes"){ dialog, which ->
-                    }
-                    .show()
-            }
-            if(!cekLogin)return@OnClickListener
-            val move_to_home = Intent(this@LoginActivity, MainMenuActivity::class.java)
-            startActivity(move_to_home)
-        })
+        binding.btnLogin.setOnClickListener{
+            doLogin()
+        }
     }
 
     fun getBundle(){
@@ -147,11 +172,73 @@ class LoginActivity : AppCompatActivity() {
         //preference
         sharedPreferencesRegister = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
         if (sharedPreferencesRegister!!.contains(usernameK)){
-            inputUsername_lgn.getEditText()?.setText(sharedPreferencesRegister!!.getString(usernameK, ""))
+            binding.username.getEditText()?.setText(sharedPreferencesRegister!!.getString(usernameK, ""))
         }
         if (sharedPreferencesRegister!!.contains(passK)){
-            inputPassword_lgn.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
+            binding.password.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
         }
+    }
+
+    fun doLogin(){
+        val edtUser = binding.teksUser.text.toString()
+        val edtPassword = binding.teksPassword.text.toString()
+
+        if (edtUser.isEmpty() || edtUser == ""){
+            binding.username.setError("Username tidak boleh kosong")
+            binding.teksUser.requestFocus()
+        }else if (edtPassword.isEmpty() || edtPassword == ""){
+            binding.password.setError("Password tidak boleh kosong")
+            binding.teksPassword.requestFocus()
+        }else{
+            server.instances.cekLoginUser(edtUser,edtPassword)
+                .enqueue(object : Callback<ResponseLogin>{
+                    override fun onResponse(
+                        call: Call<ResponseLogin>,
+                        response: Response<ResponseLogin>
+                    ) {
+                        if (response.isSuccessful){
+                            response.body()?.let { prefManager.setToken(it.token) }
+                            response.body()?.let { prefManager.setEmail(it.email) }
+                            response.body()?.let { prefManager.setUsername(it.username) }
+                            response.body()?.let { prefManager.setNoTelepon(it.noTelepon) }
+
+                            Toast.makeText(applicationContext, "${response.body()?.msg}", Toast.LENGTH_LONG).show()
+
+                            val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                            editor.putString(usernameK, edtUser)
+                            editor.putString(passK, edtPassword)
+                            editor.apply()
+                            createNotificationChannel()
+                            sendNotification1()
+
+                            startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                            finish()
+                        }else{
+                            val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                            val messageError = JSONObject(jsonObj.getString("messages"))
+
+                            if (messageError.getString("error") != ""){
+                                binding.username.setError(messageError.getString("error"))
+                                val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
+                                builder.setTitle("Username atau Password Salah!!")
+                                builder.setMessage(messageError.getString("error"))
+                                    .setPositiveButton("Yes"){ dialog, which ->
+                                    }
+                                    .show()
+                                binding.teksPassword.setText("")
+                                binding.teksUser.requestFocus()
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+
+                    }
+
+                })
+        }
+
+
     }
 
     private fun createNotificationChannel(){
@@ -183,13 +270,13 @@ class LoginActivity : AppCompatActivity() {
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_1)
             .setSmallIcon(R.drawable.ic_login)
-            .setContentTitle("User: " + inputUsername_lgn.getEditText()?.getText().toString() + " Berhasil Login!!")
+            .setContentTitle("User: " + binding.username.getEditText()?.getText().toString() + " Berhasil Login!!")
             .setContentText("Terima kasih sudah menggunakan MyCourier!!")
             .setLargeIcon(icon)
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(getString(R.string.terimakasihLogin))
                 .setBigContentTitle("Terima kasih kakak")
-                .setSummaryText("Username: " + inputUsername_lgn.getEditText()?.getText().toString()))
+                .setSummaryText("Username: " + binding.username.getEditText()?.getText().toString()))
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setColor(Color.RED)
@@ -202,13 +289,4 @@ class LoginActivity : AppCompatActivity() {
             notify(notificationId1, builder.build())
         }
     }
-
-//    fun getPembanding(str: String){
-//        CoroutineScope(Dispatchers.Main).launch {
-//            val user = dbU.userDao().getUser(str)[0]
-//            penampung_username = user.username
-//            penampung_password = user.password
-//            //Toast.makeText(applicationContext, user.username, Toast.LENGTH_SHORT).show()
-//        }
-//    }
 }

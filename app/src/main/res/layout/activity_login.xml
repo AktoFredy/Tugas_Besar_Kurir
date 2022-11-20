@@ -99,7 +99,7 @@
             app:startIconDrawable="@drawable/ic_user_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/user"
+                android:id="@+id/teksUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -116,9 +116,11 @@
             android:backgroundTint="@color/primary"
             android:hint="Password"
             app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_lock_24">
+            app:startIconDrawable="@drawable/ic_lock_24"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/teksPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />

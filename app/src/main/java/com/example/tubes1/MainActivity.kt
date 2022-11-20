@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.example.tubes1.dataCrud.PengirimanDB
+//import com.example.tubes1.dataCrud.PengirimanDB
 import com.example.tubes1.databinding.ActivityMainBinding
 import com.example.tubes1.databinding.ActivityRegisterBinding
 
@@ -36,4 +36,5 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, RegisterActivity::class.java))
         }
     }
+
 }

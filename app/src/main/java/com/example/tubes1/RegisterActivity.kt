@@ -13,21 +13,23 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.tubes1.client.server
 import com.example.tubes1.databinding.ActivityRegisterBinding
 import com.example.tubes1.notification.NotificationReceiver
-import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.tubes1.userSharedPreferences.PrefManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     var cal = Calendar.getInstance()
 
-//    var binding: ActivityRegisterBinding? = null
-    val dbU by lazy { UserDB(this) }
     private var userId: Int = 0
+
+    //init binding
+    private lateinit var prefManager: PrefManager
     private lateinit var binding: ActivityRegisterBinding
 
     //Shared Preference for login and register
@@ -44,34 +46,20 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_register)
         supportActionBar?.hide()
+
         //binding view==============
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(binding?.root)
-        //==========================
+
+        //prefmanager
+        prefManager = PrefManager(this)
 
         //Create notification Channel
         createNotificationChannelRegister()
 
-        val move_to_login = Intent(this, LoginActivity::class.java)
-//        val regBundle = Bundle()
-//        regBundle.putString("username", "")
-//        regBundle.putString("password", "")
-//        regBundle.putString("email", "")
-//        regBundle.putString("tglLahir", "")
-//        regBundle.putString("tlp", "")
-//        move_to_login.putExtra("register", regBundle)
-
         //preference
-            sharedPreferencesRegister = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
-//        if (sharedPreferencesRegister!!.contains(usernameK)){
-//            editTextName?.setText(sharedPreferencesRegister!!.getString(usernameK, ""))
-//        }
-//        if (sharedPreferencesRegister!!.contains(passK)){
-//            editTextEmail?.setText(sharedPreferencesRegister!!.getString(passK, ""))
-//        }
+        sharedPreferencesRegister = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
 
         // untuk datePicker
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
@@ -84,7 +72,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         //menggunakan inputLayout yang diset click
-        binding?.tglEdt?.setOnClickListener(object : View.OnClickListener{
+        binding?.edttgllahir?.setOnClickListener(object : View.OnClickListener{
             override fun onClick(view: View) {
                 DatePickerDialog(this@RegisterActivity,
                     dateSetListener,
@@ -95,87 +83,78 @@ class RegisterActivity : AppCompatActivity() {
         })
 
         binding?.loginClick?.setOnClickListener {
-            startActivity(move_to_login)
+            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
         }
 
         binding?.btnBackLy1?.setOnClickListener{
-            val move_to_main1 = Intent(this@RegisterActivity, MainActivity::class.java)
-            startActivity(move_to_main1)
+            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
         }
 
-        binding?.btnRegis?.setOnClickListener (View.OnClickListener{
-            var checkRegister = false
+        binding?.btnRegis?.setOnClickListener{
+            val temp_username: String = binding?.inputUsername?.getEditText()?.text.toString()
+            val temp_password: String = binding?.inputPassword1?.getEditText()?.text.toString()
+            val temp_confirmPass: String = binding?.inputConfirmPassword?.getEditText()?.text.toString()
+            val temp_email: String = binding?.inputEmail?.getEditText()?.text.toString()
+            val temp_tglLahir: String = binding?.inputTanggalLahir?.getEditText()?.text.toString()
+            val temp_noTlp: String = binding?.inputTlp?.getEditText()?.text.toString()
 
-            val temp_username: String = binding?.inputUsername?.getEditText()?.getText().toString()
-            val temp_password: String = binding?.inputPassword1?.getEditText()?.getText().toString()
-            val temp_confirmPass: String = binding?.inputConfirmPassword?.getEditText()?.getText().toString()
-            val temp_email: String = binding?.inputEmail?.getEditText()?.getText().toString()
-            val temp_tglLahir: String = binding?.inputTanggalLahir?.getEditText()?.getText().toString()
-            val temp_noTlp: String = binding?.inputTlp?.getEditText()?.getText().toString()
+            Toast.makeText(applicationContext, temp_username, Toast.LENGTH_SHORT).show()
 
-            if(temp_username.isEmpty()){
+            if (temp_email.isEmpty() || temp_email == ""){
+                binding.inputEmail.setError("Email tidak boleh kosong")
+            }
+            if(temp_username.isEmpty() || temp_username == ""){
                 binding?.inputUsername?.setError("Username Tidak Boleh Kosong")
-                checkRegister = false
             }
-
-            if(temp_password.isEmpty()){
+            if(temp_password.isEmpty() || temp_password == ""){
                 binding?.inputPassword1?.setError("Password Tidak Boleh Kosong")
-                checkRegister = false
             }
-
-            if(temp_confirmPass.isEmpty()){
+            if(temp_confirmPass.isEmpty() || temp_confirmPass == ""){
                 binding?.inputConfirmPassword?.setError("Password Confirm Tidak Boleh Kosong")
-                checkRegister = false
-            }else if(temp_password != temp_confirmPass){
-                binding?.inputConfirmPassword?.setError("Password Confirm Harus Sama")
-                checkRegister = false
             }
-
-            if(temp_email.isEmpty()){
+            if(temp_password != temp_confirmPass){
+                binding?.inputConfirmPassword?.setError("Password dan Confirm Password Harus Sama")
+            }
+            if(temp_email.isEmpty() || temp_email == ""){
                 binding?.inputEmail?.setError("Email Tidak Boleh Kosong")
-                checkRegister = false
             }
-
-            if(temp_tglLahir.isEmpty()){
+            if(temp_tglLahir.isEmpty() || temp_tglLahir == ""){
                 binding?.inputTanggalLahir?.setError("Tanggal Lahir Tidak Boleh Kosong")
-                checkRegister = false
             }
-
-            if(temp_noTlp.isEmpty()){
+            if(temp_noTlp.isEmpty() || temp_noTlp == ""){
                 binding?.inputTlp?.setError("No Tlp Tidak Boleh Kosong")
-                checkRegister = false
-            }else if(temp_noTlp.length < 12){
-                binding?.inputTlp?.setError("Panjang No Tlp harus > 12")
-                checkRegister = false
             }
-
-            if(!temp_username.isEmpty() && !temp_password.isEmpty() && !temp_confirmPass.isEmpty() && !temp_email.isEmpty() && !temp_tglLahir.isEmpty() && !temp_noTlp.isEmpty() && temp_noTlp.length == 12 && temp_password.equals(temp_confirmPass)){
-                checkRegister = true
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    dbU.userDao().addUser(
-                        User(0, temp_email, temp_username, temp_password, temp_tglLahir, temp_noTlp)
-                    )
-                    finish()
-                }
-
-                //save to shareP
-                var strUserName: String = binding.inputUsername.editText?.text.toString().trim()
-                var strPass: String = binding.inputPassword1.editText?.text.toString().trim()
-                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
-                editor.putString(usernameK, strUserName)
-                editor.putString(passK, strPass)
-                editor.apply()
-
-                //pop notification
-                sendNotificationSucessRegister()
+            if(temp_noTlp.length < 12){
+                binding?.inputTlp?.setError("Panjang No Tlp harus >= 12")
             }
+            if (!temp_email.isEmpty() && temp_email != "" && !temp_username.isEmpty() && temp_username != "" && !temp_password.isEmpty() && temp_password != "" && !temp_confirmPass.isEmpty() && temp_confirmPass != "" && temp_password == temp_confirmPass && !temp_email.isEmpty() && temp_email != "" && !temp_tglLahir.isEmpty() && temp_tglLahir != "" && !temp_noTlp.isEmpty() && temp_noTlp != "" && temp_noTlp.length >= 12){
+                val token_auth = "Bearer ${prefManager.getToken()}"
 
-            if(!checkRegister)return@OnClickListener
-            startActivity(move_to_login)
-        })
+                server.instances.createDataUser(token_auth, temp_email, temp_username, temp_password, temp_tglLahir, temp_noTlp).enqueue(object : Callback<ResponseCreate>{
+                    override fun onResponse(
+                        call: Call<ResponseCreate>,
+                        response: Response<ResponseCreate>
+                    ) {
+                        Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_SHORT).show()
+                        val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                        editor.putString(usernameK, temp_username)
+                        editor.putString(passK, temp_password)
+                        editor.apply()
+
+                        //pop notification
+                        sendNotificationSucessRegister()
+
+                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                        finish()
+                    }
+
+                    override fun onFailure(call: Call<ResponseCreate>, t: Throwable) {}
+                })
+            }
+        }
     }
 
+    //==============================================================================================
     private fun createNotificationChannelRegister(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val title = "Notification Title"
@@ -233,9 +212,4 @@ class RegisterActivity : AppCompatActivity() {
         temp = sdf.format(cal.getTime())
         binding?.inputTanggalLahir?.getEditText()?.setText(temp)
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        binding = null
-//    }
 }

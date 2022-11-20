@@ -23,9 +23,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.tubes1.*
-import com.example.tubes1.dataCrud.CrudCons
-import com.example.tubes1.dataCrud.Pengiriman
-import com.example.tubes1.dataCrud.PengirimanDB
+//import com.example.tubes1.dataCrud.CrudCons
+//import com.example.tubes1.dataCrud.Pengiriman
+//import com.example.tubes1.dataCrud.PengirimanDB
 import com.example.tubes1.databinding.FragmentDeliveryBinding
 import com.example.tubes1.databinding.FragmentProfileBinding
 import com.example.tubes1.notification.NotificationReceiver
@@ -43,14 +43,15 @@ import com.example.tubes1.databinding.ActivityMainBinding
 import android.hardware.Camera
 import android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK
 import android.util.Log
+import com.example.tubes1.client.server
+import com.example.tubes1.userSharedPreferences.PrefManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 
 
 class ProfileFragment : Fragment() {
-
-
-    //database
-    val dbU by lazy { UserDB(requireActivity()) }
 
     //channel init notification
     private var CHANNEL_ID_1 = "channel_notification_01"
@@ -58,6 +59,8 @@ class ProfileFragment : Fragment() {
     private var notificationId1 = 101
     private var notificationId2 = 102
 
+    private val listUsers = ArrayList<UsersData>()
+    private lateinit var prefManager: PrefManager
     private var _binding: FragmentProfileBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -91,9 +94,11 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
+        prefManager = PrefManager(requireContext())
         getspData()
         getProfileData(tvUsername.toString())
 
@@ -106,7 +111,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnEdit2.setOnClickListener{
-            intentEdit(penampungID, 2)
+            intentEdit(penampungID)
         }
 
         //pengunaan notification
@@ -130,13 +135,41 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getProfileData(str: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            val user = dbU.userDao().getUser(str)[0]
-            binding.profileUsername.setText(user.username)
-            binding.profileEmail.setText(user.email)
-            binding.profileNohp.setText(user.noTelepon)
-            penampungID = user.idU
-        }
+
+        val token_auth = "Bearer ${prefManager.getToken()}"
+
+        server.instances.getDataUser(token_auth, tvUsername).enqueue(object: Callback<ResponseDataUsers>{
+            override fun onResponse(
+                call: Call<ResponseDataUsers>,
+                response: Response<ResponseDataUsers>
+            ) {
+                if (response.isSuccessful){
+                    listUsers.clear()
+                    response.body().let { it?.let { it1 -> listUsers.addAll(it1.data) } }
+
+                    if (listUsers.size == 1){
+                        binding.profileUsername.setText(listUsers[0].username)
+                        binding.profileEmail.setText(listUsers[0].email)
+                        binding.profileNohp.setText(listUsers[0].noTelepon)
+                        penampungID = listUsers[0].idU
+                    }else{
+                        for (item in listUsers){
+                            if (item.username == tvUsername){
+                                binding.profileUsername.setText(item.username)
+                                binding.profileEmail.setText(item.email)
+                                binding.profileNohp.setText(item.noTelepon)
+                                penampungID = item.idU
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDataUsers>, t: Throwable) {
+
+            }
+
+        })
     }
 
     private fun logout(){
@@ -149,14 +182,14 @@ class ProfileFragment : Fragment() {
             .show()
     }
 
-    fun intentEdit(id_input: Int, intentType: Int){
+    //==============================================================================================
+    fun intentEdit(id_input: Int){
         startActivity(
             Intent(requireActivity().applicationContext, EditProfileActivity::class.java)
-                .putExtra("intent_id", id_input)
-                .putExtra("intent_type", intentType)
         )
     }
 
+    //==============================================================================================
     fun openCamera(){
         startActivity(
             Intent(requireActivity().applicationContext, Camera_Activity::class.java)

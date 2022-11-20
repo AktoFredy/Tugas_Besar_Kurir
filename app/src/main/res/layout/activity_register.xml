@@ -104,6 +104,7 @@
                     app:errorEnabled="true"
                     app:startIconDrawable="@drawable/ic_email_24">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtemail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"/>
@@ -122,6 +123,7 @@
                     app:errorEnabled="true"
                     app:startIconDrawable="@drawable/ic_user_24">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtusername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"/>
@@ -138,8 +140,10 @@
                     android:layout_marginTop="0dp"
                     android:hint="Create Password"
                     app:errorEnabled="true"
-                    app:startIconDrawable="@drawable/ic_lock_24">
+                    app:startIconDrawable="@drawable/ic_lock_24"
+                    app:endIconMode="password_toggle">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtpassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"/>
@@ -156,7 +160,8 @@
                     android:layout_marginTop="0dp"
                     android:hint="Confirm Password"
                     app:errorEnabled="true"
-                    app:startIconDrawable="@drawable/ic_lock_24">
+                    app:startIconDrawable="@drawable/ic_lock_24"
+                    app:endIconMode="password_toggle">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,7 +183,7 @@
                     app:errorEnabled="true"
                     app:startIconDrawable="@drawable/ic_calendar_24">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tglEdt"
+                        android:id="@+id/edttgllahir"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:editable="false"/>
@@ -197,6 +202,7 @@
                     app:errorEnabled="true"
                     app:startIconDrawable="@drawable/ic_call_24">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edttlp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"/>

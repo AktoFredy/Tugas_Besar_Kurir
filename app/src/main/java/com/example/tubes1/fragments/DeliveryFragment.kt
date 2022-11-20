@@ -4,44 +4,88 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tubes1.EditActivity
-import com.example.tubes1.MainActivity
-import com.example.tubes1.R
-import com.example.tubes1.RVDummyAdapter
-import com.example.tubes1.dataCrud.CrudCons
-import com.example.tubes1.dataCrud.Pengiriman
-import com.example.tubes1.dataCrud.PengirimanDB
+import com.example.tubes1.*
+import com.example.tubes1.client.server
+//import com.example.tubes1.dataCrud.CrudCons
+//import com.example.tubes1.dataCrud.Pengiriman
+//import com.example.tubes1.dataCrud.PengirimanDB
 import com.example.tubes1.databinding.FragmentDeliveryBinding
 import com.example.tubes1.entity.dummy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
+@Suppress("UNREACHABLE_CODE")
 class DeliveryFragment : Fragment() {
-    val db by lazy { PengirimanDB(requireActivity()) }
-    lateinit var pengirimanAdapter : RVDummyAdapter
     private var _binding: FragmentDeliveryBinding? = null
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private var idPengiriman = -1
+
+    private val listPengiriman = ArrayList<PengirimanData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_delivery, container, false)
         _binding = FragmentDeliveryBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        //loadFragment()
+        return binding.root
+//        loadData()
+
+
+//        binding.txtCari.setOnKeyListener(View.OnKeyListener{ _, keyCode, event->
+//            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
+//            {
+////                loadData()
+//
+//                return@OnKeyListener true
+//            }
+//            false
+//        })
+//
+//        binding.btnCreate.setOnClickListener{
+//            loadFragment()
+//            startActivity(Intent(requireActivity(), EditActivity::class.java))
+//        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadFragment()
+
+        binding.txtCari.setOnKeyListener(View.OnKeyListener{ _, keyCode, event->
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
+            {
+                loadFragment()
+                return@OnKeyListener true
+            }
+            false
+        })
+
+        binding.btnCreate.setOnClickListener{
+            startActivity(
+                Intent(requireActivity(), EditActivity::class.java)
+                    .putExtra("intent_id", idPengiriman)
+            )
+        }
     }
 
     override fun onDestroyView() {
@@ -49,87 +93,55 @@ class DeliveryFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        super.onViewCreated(view, savedInstanceState)
-//        val layoutManager = LinearLayoutManager(context)
-//        val adapter : RVDummyAdapter = RVDummyAdapter(dummy.listOfDummy)
+
+//    override fun onStart(){
+//        super.onStart()
+////        loadData()
+//        loadFragment()
+//    }
+
+//    fun loadData(){
+//        binding.rvDeliv.setHasFixedSize(true)
+//        binding.rvDeliv.layoutManager = LinearLayoutManager(context)
 //
-//        val rvDummy : RecyclerView = view.findViewById(R.id.rv_deliv)
+//        val cari = binding.txtCari.text.toString()
 //
-//        rvDummy.layoutManager = layoutManager
+//        binding.progressBar.visibility
 //
-//        rvDummy.setHasFixedSize(true)
+//        server.instances.getData(cari).enqueue(object : Callback<ResponseDataPengiriman> {
+//            override fun onResponse(
+//                call: Call<ResponseDataPengiriman>,
+//                response: Response<ResponseDataPengiriman>
+//            ){
+//                if (response.isSuccessful){
+//                    listPengiriman.clear()
+//                    response.body()?.let { listPengiriman.addAll(it.data) }
 //
-//        rvDummy.adapter = adapter
-        setupListener()
-        setupRecyclerView()
-    }
-    private fun setupRecyclerView(){
-        pengirimanAdapter = RVDummyAdapter(arrayListOf(), object : RVDummyAdapter.OnAdapterListener{
+//                    var adapter = RVDummyAdapter(listPengiriman, requireContext())
+//                    binding.rvDeliv.adapter = adapter
+//                    adapter.notifyDataSetChanged()
+//
+//                    binding.progressBar.isVisible = false
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseDataPengiriman>, t: Throwable) {
+//
+//            }
+//
+//
+//        }
+//        )
+//    }
 
-            override fun onClick(pengiriman: Pengiriman) {
-                intentEdit(pengiriman.idP, CrudCons.TYPE_READ)
-            }
-
-            override fun onUpdate(pengiriman: Pengiriman) {
-                intentEdit(pengiriman.idP, CrudCons.TYPE_UPDATE)
-            }
-
-            override fun onDelete(pengiriman: Pengiriman) {
-                deleteDialog(pengiriman)
-            }
-        })
-        binding.rvDeliv.apply {
-            layoutManager = LinearLayoutManager(requireActivity().applicationContext)
-            adapter = pengirimanAdapter
-        }
-    }
-
-    private fun deleteDialog(pengiriman: Pengiriman){
-        val alertDialog = AlertDialog.Builder(requireActivity())
-        alertDialog.apply {
-            setTitle("Confirmation")
-            setMessage("Are You sure to delete this data From ${pengiriman.kotaTujuan}?")
-            setNegativeButton("Cancel", DialogInterface.OnClickListener{ dialogInterface, i ->
-                dialogInterface.dismiss()
-            })
-            setPositiveButton("Delete", DialogInterface.OnClickListener{ dialogInterface, i ->
-                dialogInterface.dismiss()
-                CoroutineScope(Dispatchers.IO).launch {
-                    db.PengirimanDao().deletePengiriman(pengiriman)
-                    loadData()
-                }
-            })
-        }
-        alertDialog.show()
-    }
-
-    override fun onStart(){
-        super.onStart()
-        loadData()
-    }
-
-    fun loadData(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val pengirimans = db.PengirimanDao().getPengiriman1()
-            Log.d("DeliveryFragment", "dbResponse: $pengirimans")
-            withContext(Dispatchers.Main){
-                pengirimanAdapter.setData(pengirimans)
-            }
-        }
-    }
-
-    fun setupListener(){
-        binding.btnCreate.setOnClickListener{
-            intentEdit(0, CrudCons.TYPE_CREATE)
-        }
-    }
-
-    fun intentEdit(pengirimanId: Int, intentType: Int){
-        startActivity(
-            Intent(requireActivity().applicationContext, EditActivity::class.java)
-                .putExtra("intent_id", pengirimanId)
-                .putExtra("intent_type", intentType)
-        )
+    fun loadFragment(){
+        val mfragment = Data_Pengiriman_Fragment()
+        val mFragmentManager = getFragmentManager()
+        val mfTransaction = mFragmentManager!!.beginTransaction()
+        val teksCari = binding.txtCari.text
+        val mBundle = Bundle()
+        mBundle.putString("cari", teksCari.toString())
+        mfragment.arguments = mBundle
+        mfTransaction.replace(R.id.fl_data, mfragment).commit()
     }
 }
