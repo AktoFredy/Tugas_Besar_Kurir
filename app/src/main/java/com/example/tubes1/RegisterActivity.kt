@@ -207,7 +207,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun updateEditText(){
         var temp : String
-        val formatku = "MM/dd/yyyy"
+        val formatku = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(formatku, Locale.US)
         temp = sdf.format(cal.getTime())
         binding?.inputTanggalLahir?.getEditText()?.setText(temp)

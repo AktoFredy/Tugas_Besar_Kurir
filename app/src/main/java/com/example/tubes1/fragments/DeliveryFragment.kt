@@ -1,34 +1,14 @@
 package com.example.tubes1.fragments
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tubes1.*
-import com.example.tubes1.client.server
-//import com.example.tubes1.dataCrud.CrudCons
-//import com.example.tubes1.dataCrud.Pengiriman
-//import com.example.tubes1.dataCrud.PengirimanDB
 import com.example.tubes1.databinding.FragmentDeliveryBinding
-import com.example.tubes1.entity.dummy
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Suppress("UNREACHABLE_CODE")
 class DeliveryFragment : Fragment() {
