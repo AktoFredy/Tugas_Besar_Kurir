@@ -31,7 +31,6 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         view1 = binding.getRoot()
         binding.home = "HOME"
-        binding.descrip = "Halaman Home ini Belum Jadi"
         return view1
     }
 

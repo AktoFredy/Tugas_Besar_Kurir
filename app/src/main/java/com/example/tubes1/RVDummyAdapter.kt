@@ -1,12 +1,12 @@
 package com.example.tubes1
 
-//import com.example.tubes1.dataCrud.Pengiriman
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tubes1.client.server
@@ -36,15 +36,7 @@ class RVDummyAdapter(private val pengirimans: ArrayList<PengirimanData>, private
                     context.startActivity(i)
                 }
                 delBtn.setOnClickListener {
-                    deleteItem(pengirimanData.idP)
-                    val manager = (context as AppCompatActivity).supportFragmentManager
-                    val mfragment = Data_Pengiriman_Fragment()
-                    val mfTransaction = manager!!.beginTransaction()
-                    val teksCari = ""
-                    val mBundle = Bundle()
-                    mBundle.putString("cari", teksCari)
-                    mfragment.arguments = mBundle
-                    mfTransaction.replace(R.id.fl_data, mfragment).commit()
+                    deleteItemDialogs(pengirimanData.idP)
                 }
             }
         }
@@ -78,5 +70,23 @@ class RVDummyAdapter(private val pengirimans: ArrayList<PengirimanData>, private
 
             override fun onFailure(call: Call<ResponseCreate>, t: Throwable) { }
         })
+    }
+
+    private fun deleteItemDialogs(IdP: Int){
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setTitle("Delete Order")
+        builder.setMessage("Are you sure you want to Delete this data?")
+            .setPositiveButton("Delete"){ dialog, which ->
+                deleteItem(IdP)
+                val manager = (context as AppCompatActivity).supportFragmentManager
+                val mfragment = Data_Pengiriman_Fragment()
+                val mfTransaction = manager!!.beginTransaction()
+                val teksCari = ""
+                val mBundle = Bundle()
+                mBundle.putString("cari", teksCari)
+                mfragment.arguments = mBundle
+                mfTransaction.replace(R.id.fl_data, mfragment).commit()
+            }
+            .show()
     }
 }

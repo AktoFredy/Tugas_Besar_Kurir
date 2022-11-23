@@ -28,8 +28,7 @@ class HelpFragment : Fragment() {
         //return inflater.inflate(R.layout.fragment_help, container, false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_help, container, false)
         view2 = binding.getRoot()
-        binding.helep = "HELEP"
-        binding.description = "Halaman HELEP ini Belum Jadi, ini hanya simulasi Data Binding"
+        binding.helep = "HELP"
         return view2
     }
 

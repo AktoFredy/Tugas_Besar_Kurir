@@ -1,12 +1,20 @@
 package com.example.tubes1.fragments
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.tubes1.*
 import com.example.tubes1.databinding.FragmentDeliveryBinding
 
@@ -19,32 +27,12 @@ class DeliveryFragment : Fragment() {
     private val binding get() = _binding!!
     private var idPengiriman = -1
 
-    private val listPengiriman = ArrayList<PengirimanData>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDeliveryBinding.inflate(inflater, container, false)
-        //loadFragment()
         return binding.root
-//        loadData()
-
-
-//        binding.txtCari.setOnKeyListener(View.OnKeyListener{ _, keyCode, event->
-//            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
-//            {
-////                loadData()
-//
-//                return@OnKeyListener true
-//            }
-//            false
-//        })
-//
-//        binding.btnCreate.setOnClickListener{
-//            loadFragment()
-//            startActivity(Intent(requireActivity(), EditActivity::class.java))
-//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,53 +54,16 @@ class DeliveryFragment : Fragment() {
                     .putExtra("intent_id", idPengiriman)
             )
         }
+
+        binding.btnScanQR.setOnClickListener {
+            startActivity(Intent(requireActivity(), PengirimanDetailsQRScannerActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
-//    override fun onStart(){
-//        super.onStart()
-////        loadData()
-//        loadFragment()
-//    }
-
-//    fun loadData(){
-//        binding.rvDeliv.setHasFixedSize(true)
-//        binding.rvDeliv.layoutManager = LinearLayoutManager(context)
-//
-//        val cari = binding.txtCari.text.toString()
-//
-//        binding.progressBar.visibility
-//
-//        server.instances.getData(cari).enqueue(object : Callback<ResponseDataPengiriman> {
-//            override fun onResponse(
-//                call: Call<ResponseDataPengiriman>,
-//                response: Response<ResponseDataPengiriman>
-//            ){
-//                if (response.isSuccessful){
-//                    listPengiriman.clear()
-//                    response.body()?.let { listPengiriman.addAll(it.data) }
-//
-//                    var adapter = RVDummyAdapter(listPengiriman, requireContext())
-//                    binding.rvDeliv.adapter = adapter
-//                    adapter.notifyDataSetChanged()
-//
-//                    binding.progressBar.isVisible = false
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseDataPengiriman>, t: Throwable) {
-//
-//            }
-//
-//
-//        }
-//        )
-//    }
 
     fun loadFragment(){
         val mfragment = Data_Pengiriman_Fragment()

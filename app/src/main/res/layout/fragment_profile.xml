@@ -60,6 +60,7 @@
                     app:shapeAppearanceOverlay="@style/gambarBundar"
                     app:strokeWidth="3dp"
                     app:strokeColor="@color/black"/>
+
             </LinearLayout>
 
             <LinearLayout
