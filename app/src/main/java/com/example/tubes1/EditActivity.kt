@@ -114,12 +114,11 @@ class EditActivity : AppCompatActivity() {
                     ) {
                         if(response.isSuccessful){
                             //creating pdf file
-                            //createPdf(namaPengirim, namaPenerima, desBarang, kotaAsal, kotaTujuan, alamatLengkap, Biaya)
+                            createPdf(namaPengirim, namaPenerima, desBarang, kotaAsal, kotaTujuan, alamatLengkap, Biaya)
 
                             // finish saving to database
                             Toast.makeText(applicationContext,"${response.body()?.pesan}", Toast.LENGTH_LONG).show()
-                            loadFragment()
-//                            finish()
+                            finish()
                         }else{
                             val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
                             val errMsg = JSONObject(jsonObj.getString("message"))
@@ -205,96 +204,96 @@ class EditActivity : AppCompatActivity() {
     }
 
 
-//    @SuppressLint("ObsoleteSdkInt")
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    @Throws(
-//        FileNotFoundException::class
-//    )
-//    private fun createPdf(namaPengirim: String, namaPenerima: String, desBarang: String, kotaAsal: String, kotaTujuan: String, alamatLengkap: String, biaya: Double) {
-//        // ini berguna untuk akses writing ke storage hp kalian dalam model download
-//        //harus diketik jangan COPAS
-//        var id = 1;
-//        val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-//        val file = File(pdfPath, "Pdforder" + id + ".pdf")
-//        FileOutputStream(file)
-//        id++
-//        //inisialisasi pembuatan PDF
-//        val writer = PdfWriter(file)
-//        val pdfDocument = PdfDocument(writer)
-//        val document = Document(pdfDocument)
-//        pdfDocument.defaultPageSize = PageSize.A4
-//        document.setMargins(5f, 5f, 5f, 5f)
-//        @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.logo_noback)
-//
-//        //penambahan gambar pada Gambar atas
-//        val bitmap = (d as BitmapDrawable?)!!.bitmap
-//        val stream = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-//        val bitmapData = stream.toByteArray()
-//        val imageData = ImageDataFactory.create(bitmapData)
-//        val image = Image(imageData)
-//        val namaPengguna = Paragraph("Identitas Pengguna").setBold().setFontSize(24f)
-//            .setTextAlignment(TextAlignment.CENTER)
-//        val group = Paragraph(
-//            """
-//                        Berikut adalah
-//                        Nama Pengguna UAJY 2022/2023
-//                        """.trimIndent()).setTextAlignment(TextAlignment.CENTER).setFontSize(12f)
-//
-//        //proses pembuatan tabel
-//        val width = floatArrayOf(150f, 150f)
-//        val table = Table(width)
-//        //pengisian table dengan data-data
-//        table.setHorizontalAlignment(HorizontalAlignment.CENTER)
-//        table.addCell(Cell().add(Paragraph("Nama Pengirim")))
-//        table.addCell(Cell().add(Paragraph(namaPengirim)))
-//        table.addCell(Cell().add(Paragraph("Nama Penerima")))
-//        table.addCell(Cell().add(Paragraph(namaPenerima)))
-//        table.addCell(Cell().add(Paragraph("Barang")))
-//        table.addCell(Cell().add(Paragraph(desBarang)))
-//        table.addCell(Cell().add(Paragraph("Kota Pengirim")))
-//        table.addCell(Cell().add(Paragraph(kotaAsal)))
-//        table.addCell(Cell().add(Paragraph("Kota Penerima")))
-//        table.addCell(Cell().add(Paragraph(kotaTujuan)))
-//        table.addCell(Cell().add(Paragraph("Alamat Lengkap Penerima")))
-//        table.addCell(Cell().add(Paragraph(alamatLengkap)))
-//        table.addCell(Cell().add(Paragraph("Biaya")))
-//        table.addCell(Cell().add(Paragraph(biaya.toString())))
-//
-//        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-//        table.addCell(Cell().add(Paragraph("Tanggal Dokumen PDF dibuat")))
-//        table.addCell(Cell().add(Paragraph(LocalDate.now().format(dateTimeFormatter))))
-//
-//        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
-//        table.addCell(Cell().add(Paragraph("Waktu Pembuatan Dokumen")))
-//        table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
-//
-//        //pembuatan WR CODE secara generate dengan bantuan IText7
-//        val barcodeQRCode = BarcodeQRCode(
-//            """
-//                                        $namaPengirim
-//                                        $namaPenerima
-//                                        $desBarang
-//                                        $kotaAsal
-//                                        $kotaTujuan
-//                                        $alamatLengkap
-//                                        $biaya
-//                                        ${LocalDate.now().format(dateTimeFormatter)}
-//                                        ${LocalTime.now().format(timeFormatter)}
-//                                        """.trimIndent())
-//
-//        val qrCodeObject = barcodeQRCode.createFormXObject(ColorConstants.BLACK, pdfDocument)
-//        val qrCodeImage = Image(qrCodeObject).setWidth(80f).setHorizontalAlignment(HorizontalAlignment.CENTER)
-//
-//        document.add(image)
-//        document.add(namaPengguna)
-//        document.add(group)
-//        document.add(table)
-//        document.add(qrCodeImage)
-//
-//        document.close()
-//        Toast.makeText(this, "Prf Created", Toast.LENGTH_LONG).show()
-//    }
+    @SuppressLint("ObsoleteSdkInt")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Throws(
+        FileNotFoundException::class
+    )
+    private fun createPdf(namaPengirim: String, namaPenerima: String, desBarang: String, kotaAsal: String, kotaTujuan: String, alamatLengkap: String, biaya: Double) {
+        // ini berguna untuk akses writing ke storage hp kalian dalam model download
+        //harus diketik jangan COPAS
+        var id = 1
+        val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+        val file = File(pdfPath, "Pdforder" + id + ".pdf")
+        FileOutputStream(file)
+        id++
+        //inisialisasi pembuatan PDF
+        val writer = PdfWriter(file)
+        val pdfDocument = PdfDocument(writer)
+        val document = Document(pdfDocument)
+        pdfDocument.defaultPageSize = PageSize.A4
+        document.setMargins(5f, 5f, 5f, 5f)
+        @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.logo_noback)
+
+        //penambahan gambar pada Gambar atas
+        val bitmap = (d as BitmapDrawable?)!!.bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val bitmapData = stream.toByteArray()
+        val imageData = ImageDataFactory.create(bitmapData)
+        val image = Image(imageData)
+        val namaPengguna = Paragraph("Identitas Pengguna").setBold().setFontSize(24f)
+            .setTextAlignment(TextAlignment.CENTER)
+        val group = Paragraph(
+            """
+                        Berikut adalah
+                        Nama Pengguna UAJY 2022/2023
+                        """.trimIndent()).setTextAlignment(TextAlignment.CENTER).setFontSize(12f)
+
+        //proses pembuatan tabel
+        val width = floatArrayOf(150f, 150f)
+        val table = Table(width)
+        //pengisian table dengan data-data
+        table.setHorizontalAlignment(HorizontalAlignment.CENTER)
+        table.addCell(Cell().add(Paragraph("Nama Pengirim")))
+        table.addCell(Cell().add(Paragraph(namaPengirim)))
+        table.addCell(Cell().add(Paragraph("Nama Penerima")))
+        table.addCell(Cell().add(Paragraph(namaPenerima)))
+        table.addCell(Cell().add(Paragraph("Barang")))
+        table.addCell(Cell().add(Paragraph(desBarang)))
+        table.addCell(Cell().add(Paragraph("Kota Pengirim")))
+        table.addCell(Cell().add(Paragraph(kotaAsal)))
+        table.addCell(Cell().add(Paragraph("Kota Penerima")))
+        table.addCell(Cell().add(Paragraph(kotaTujuan)))
+        table.addCell(Cell().add(Paragraph("Alamat Lengkap Penerima")))
+        table.addCell(Cell().add(Paragraph(alamatLengkap)))
+        table.addCell(Cell().add(Paragraph("Biaya")))
+        table.addCell(Cell().add(Paragraph(biaya.toString())))
+
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        table.addCell(Cell().add(Paragraph("Tanggal Dokumen PDF dibuat")))
+        table.addCell(Cell().add(Paragraph(LocalDate.now().format(dateTimeFormatter))))
+
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
+        table.addCell(Cell().add(Paragraph("Waktu Pembuatan Dokumen")))
+        table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
+
+        //pembuatan WR CODE secara generate dengan bantuan IText7
+        val barcodeQRCode = BarcodeQRCode(
+            """
+                                        $namaPengirim
+                                        $namaPenerima
+                                        $desBarang
+                                        $kotaAsal
+                                        $kotaTujuan
+                                        $alamatLengkap
+                                        $biaya
+                                        ${LocalDate.now().format(dateTimeFormatter)}
+                                        ${LocalTime.now().format(timeFormatter)}
+                                        """.trimIndent())
+
+        val qrCodeObject = barcodeQRCode.createFormXObject(ColorConstants.BLACK, pdfDocument)
+        val qrCodeImage = Image(qrCodeObject).setWidth(80f).setHorizontalAlignment(HorizontalAlignment.CENTER)
+
+        document.add(image)
+        document.add(namaPengguna)
+        document.add(group)
+        document.add(table)
+        document.add(qrCodeImage)
+
+        document.close()
+        Toast.makeText(this, "Prf Created", Toast.LENGTH_LONG).show()
+    }
 
     fun getPengiriman(){
         val token_auth = "Bearer ${prefManager.getToken()}"
@@ -340,8 +339,8 @@ class EditActivity : AppCompatActivity() {
     }
 
     //testing to move fragment
-    fun loadFragment(){
-        val intent = Intent(this@EditActivity, DeliveryFragment::class.java)
-        startActivity(intent)
-    }
+//    fun loadFragment(){
+//        val intent = Intent(this@EditActivity, DeliveryFragment::class.java)
+//        startActivity(intent)
+//    }
 }
