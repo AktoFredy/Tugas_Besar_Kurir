@@ -183,62 +183,64 @@ class LoginActivity : AppCompatActivity() {
         val edtUser = binding.teksUser.text.toString()
         val edtPassword = binding.teksPassword.text.toString()
 
-        if (edtUser.isEmpty() || edtUser == ""){
-            binding.username.setError("Username tidak boleh kosong")
-            binding.teksUser.requestFocus()
-        }else if (edtPassword.isEmpty() || edtPassword == ""){
-            binding.password.setError("Password tidak boleh kosong")
-            binding.teksPassword.requestFocus()
-        }else{
-            server.instances.cekLoginUser(edtUser,edtPassword)
-                .enqueue(object : Callback<ResponseLogin>{
-                    override fun onResponse(
-                        call: Call<ResponseLogin>,
-                        response: Response<ResponseLogin>
-                    ) {
-                        if (response.isSuccessful){
-                            response.body()?.let { prefManager.setToken(it.token) }
-                            response.body()?.let { prefManager.setEmail(it.email) }
-                            response.body()?.let { prefManager.setUsername(it.username) }
-                            response.body()?.let { prefManager.setNoTelepon(it.noTelepon) }
+        server.instances.cekLoginUser(edtUser,edtPassword)
+            .enqueue(object : Callback<ResponseLogin>{
+                override fun onResponse(
+                    call: Call<ResponseLogin>,
+                    response: Response<ResponseLogin>
+                ) {
+                    if (response.isSuccessful){
+                        response.body()?.let { prefManager.setToken(it.token) }
+                        response.body()?.let { prefManager.setEmail(it.email) }
+                        response.body()?.let { prefManager.setUsername(it.username) }
+                        response.body()?.let { prefManager.setNoTelepon(it.noTelepon) }
 
-                            Toast.makeText(applicationContext, "${response.body()?.msg}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "${response.body()?.msg}", Toast.LENGTH_LONG).show()
 
-                            val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
-                            editor.putString(usernameK, edtUser)
-                            editor.putString(passK, edtPassword)
-                            editor.apply()
-                            createNotificationChannel()
-                            sendNotification1()
+                        val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                        editor.putString(usernameK, edtUser)
+                        editor.putString(passK, edtPassword)
+                        editor.apply()
+                        createNotificationChannel()
+                        sendNotification1()
 
-                            startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
-                            finish()
+                        startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                        finish()
+                    }else{
+                        val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                        val messageError = JSONObject(jsonObj.getString("messages"))
+
+                        if (messageError.has("error")){
+                            binding.username.error = messageError.getString("error")
+                            val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
+                            builder.setTitle("Username atau Password Salah!!")
+                            builder.setMessage(messageError.getString("error"))
+                                .setPositiveButton("OK"){ dialog, which ->
+                                }
+                                .show()
+                            binding.teksPassword.setText("")
+                            binding.teksUser.requestFocus()
+                        }
+
+                        if (messageError.has("username")){
+                                binding.username.error = messageError.getString("username")
                         }else{
-                            val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
-                            val messageError = JSONObject(jsonObj.getString("messages"))
+                            binding.username.error = null
+                        }
 
-                            if (messageError.getString("error") != ""){
-                                binding.username.setError(messageError.getString("error"))
-                                val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
-                                builder.setTitle("Username atau Password Salah!!")
-                                builder.setMessage(messageError.getString("error"))
-                                    .setPositiveButton("Yes"){ dialog, which ->
-                                    }
-                                    .show()
-                                binding.teksPassword.setText("")
-                                binding.teksUser.requestFocus()
-                            }
+                        if (messageError.has("userpassword")){
+                            binding.password.error = messageError.getString("userpassword")
+                        }else{
+                            binding.password.error = null
                         }
                     }
+                }
 
-                    override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
 
-                    }
+                }
 
-                })
-        }
-
-
+            })
     }
 
     private fun createNotificationChannel(){

@@ -17,6 +17,7 @@ import com.example.tubes1.client.server
 import com.example.tubes1.databinding.ActivityRegisterBinding
 import com.example.tubes1.notification.NotificationReceiver
 import com.example.tubes1.userSharedPreferences.PrefManager
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -100,57 +101,113 @@ class RegisterActivity : AppCompatActivity() {
 
             Toast.makeText(applicationContext, temp_username, Toast.LENGTH_SHORT).show()
 
-            if (temp_email.isEmpty() || temp_email == ""){
-                binding.inputEmail.setError("Email tidak boleh kosong")
-            }
-            if(temp_username.isEmpty() || temp_username == ""){
-                binding?.inputUsername?.setError("Username Tidak Boleh Kosong")
-            }
-            if(temp_password.isEmpty() || temp_password == ""){
-                binding?.inputPassword1?.setError("Password Tidak Boleh Kosong")
-            }
-            if(temp_confirmPass.isEmpty() || temp_confirmPass == ""){
-                binding?.inputConfirmPassword?.setError("Password Confirm Tidak Boleh Kosong")
-            }
-            if(temp_password != temp_confirmPass){
-                binding?.inputConfirmPassword?.setError("Password dan Confirm Password Harus Sama")
-            }
-            if(temp_email.isEmpty() || temp_email == ""){
-                binding?.inputEmail?.setError("Email Tidak Boleh Kosong")
-            }
-            if(temp_tglLahir.isEmpty() || temp_tglLahir == ""){
-                binding?.inputTanggalLahir?.setError("Tanggal Lahir Tidak Boleh Kosong")
-            }
-            if(temp_noTlp.isEmpty() || temp_noTlp == ""){
-                binding?.inputTlp?.setError("No Tlp Tidak Boleh Kosong")
-            }
-            if(temp_noTlp.length < 12){
-                binding?.inputTlp?.setError("Panjang No Tlp harus >= 12")
-            }
-            if (!temp_email.isEmpty() && temp_email != "" && !temp_username.isEmpty() && temp_username != "" && !temp_password.isEmpty() && temp_password != "" && !temp_confirmPass.isEmpty() && temp_confirmPass != "" && temp_password == temp_confirmPass && !temp_email.isEmpty() && temp_email != "" && !temp_tglLahir.isEmpty() && temp_tglLahir != "" && !temp_noTlp.isEmpty() && temp_noTlp != "" && temp_noTlp.length >= 12){
-                val token_auth = "Bearer ${prefManager.getToken()}"
+//            if (temp_email.isEmpty() || temp_email == ""){
+//                binding.inputEmail.setError("Email tidak boleh kosong")
+//            }
+//            if(temp_username.isEmpty() || temp_username == ""){
+//                binding?.inputUsername?.setError("Username Tidak Boleh Kosong")
+//            }
+//            if(temp_password.isEmpty() || temp_password == ""){
+//                binding?.inputPassword1?.setError("Password Tidak Boleh Kosong")
+//            }
+//            if(temp_confirmPass.isEmpty() || temp_confirmPass == ""){
+//                binding?.inputConfirmPassword?.setError("Password Confirm Tidak Boleh Kosong")
+//            }
+//            if(temp_password != temp_confirmPass){
+//                binding?.inputConfirmPassword?.setError("Password dan Confirm Password Harus Sama")
+//            }
+//            if(temp_email.isEmpty() || temp_email == ""){
+//                binding?.inputEmail?.setError("Email Tidak Boleh Kosong")
+//            }
+//            if(temp_tglLahir.isEmpty() || temp_tglLahir == ""){
+//                binding?.inputTanggalLahir?.setError("Tanggal Lahir Tidak Boleh Kosong")
+//            }
+//            if(temp_noTlp.isEmpty() || temp_noTlp == ""){
+//                binding?.inputTlp?.setError("No Tlp Tidak Boleh Kosong")
+//            }
+//            if(temp_noTlp.length < 12){
+//                binding?.inputTlp?.setError("Panjang No Tlp harus >= 12")
+//            }
+//            if (!temp_email.isEmpty() && temp_email != "" && !temp_username.isEmpty() && temp_username != "" && !temp_password.isEmpty() && temp_password != "" && !temp_confirmPass.isEmpty() && temp_confirmPass != "" && temp_password == temp_confirmPass && !temp_email.isEmpty() && temp_email != "" && !temp_tglLahir.isEmpty() && temp_tglLahir != "" && !temp_noTlp.isEmpty() && temp_noTlp != "" && temp_noTlp.length >= 12){
+//                val token_auth = "Bearer ${prefManager.getToken()}"
 
-                server.instances.createDataUser(token_auth, temp_email, temp_username, temp_password, temp_tglLahir, temp_noTlp).enqueue(object : Callback<ResponseCreate>{
+                server.instances.createDataUser(temp_email, temp_username, temp_password, temp_confirmPass, temp_tglLahir, temp_noTlp).enqueue(object : Callback<ResponseCreate>{
                     override fun onResponse(
                         call: Call<ResponseCreate>,
                         response: Response<ResponseCreate>
                     ) {
-                        Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_SHORT).show()
-                        val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
-                        editor.putString(usernameK, temp_username)
-                        editor.putString(passK, temp_password)
-                        editor.apply()
+                        if (response.isSuccessful){
+                            Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_SHORT).show()
+                            val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                            editor.putString(usernameK, temp_username)
+                            editor.putString(passK, temp_password)
+                            editor.apply()
 
-                        //pop notification
-                        sendNotificationSucessRegister()
+                            //pop notification
+                            sendNotificationSucessRegister()
 
-                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-                        finish()
+                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                            finish()
+                        } else {
+                            val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                            val messageError = JSONObject(jsonObj.getString("message"))
+
+                            if(messageError != null){
+                                if (messageError.has("useremail")){
+                                    binding.inputEmail.error = messageError.getString("useremail")
+                                }else{
+                                    binding.inputEmail.error = null
+                                }
+
+                                if (messageError.has("username")){
+                                    binding.inputUsername.error = messageError.getString("username")
+                                }else{
+                                    binding.inputUsername.error = null
+                                }
+
+                                if (messageError.has("userpassword")){
+                                    binding.inputPassword1.error = messageError.getString("userpassword")
+                                }else{
+                                    binding.inputPassword1.error = null
+                                }
+
+                                if (messageError.has("confirmpassword")){
+                                    binding.inputConfirmPassword.error = messageError.getString("confirmpassword")
+                                }else{
+                                    binding.inputConfirmPassword.error = null
+                                }
+
+                                if (messageError.has("tanggalLahir")){
+                                    binding.inputTanggalLahir.error = messageError.getString("tanggalLahir")
+                                }else{
+                                    binding.inputTanggalLahir.error = null
+                                }
+
+                                if (messageError.has("noTelepon")){
+                                    binding.inputTlp.error = messageError.getString("noTelepon")
+                                }else{
+                                    binding.inputTlp.error = null
+                                }
+                            }
+//                            else{
+//                                Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_SHORT).show()
+//                                val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+//                                editor.putString(usernameK, temp_username)
+//                                editor.putString(passK, temp_password)
+//                                editor.apply()
+//
+//                                //pop notification
+//                                sendNotificationSucessRegister()
+//
+//                                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+//                                finish()
+//                            }
+                        }
                     }
 
                     override fun onFailure(call: Call<ResponseCreate>, t: Throwable) {}
                 })
-            }
+           //}
         }
     }
 

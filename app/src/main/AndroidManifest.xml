@@ -50,16 +50,16 @@
             android:exported="false" />
         <activity
             android:name=".EditActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainMenuActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

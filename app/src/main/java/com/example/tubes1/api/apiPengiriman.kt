@@ -58,10 +58,11 @@ interface apiPengiriman {
     @FormUrlEncoded
     @POST("user")
     fun createDataUser(
-        @Header("Authorization") token_auth: String?,
+//        @Header("Authorization") token_auth: String?,
         @Field("useremail") email:String?,
         @Field("username") username:String?,
         @Field("userpassword") password:String?,
+        @Field("confirmpassword") confirm:String?,
         @Field("tanggalLahir") tanggalLahir:String?,
         @Field("noTelepon") noTelepon:String?,
     ): Call<ResponseCreate>
