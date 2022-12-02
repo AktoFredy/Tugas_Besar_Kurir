@@ -83,7 +83,7 @@ class LoginActivityTest {
             )
         )
         materialButton.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText = onView(
             allOf(
@@ -132,7 +132,7 @@ class LoginActivityTest {
             )
         )
         materialButton2.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val materialButton3 = onView(
             allOf(
@@ -147,7 +147,7 @@ class LoginActivityTest {
             )
         )
         materialButton3.perform(scrollTo(), click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText3 = onView(
             allOf(
@@ -181,7 +181,7 @@ class LoginActivityTest {
             )
         )
         materialButton4.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
     }
 
     private fun childAtPosition(
@@ -198,6 +198,22 @@ class LoginActivityTest {
                 val parent = view.parent
                 return parent is ViewGroup && parentMatcher.matches(parent)
                         && view == parent.getChildAt(position)
+            }
+        }
+    }
+
+    fun waitFor(delay: Long): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return isRoot()
+            }
+
+            override fun getDescription(): String {
+                return "wait for " + delay + "millisecods"
+            }
+
+            override fun perform(uiController: UiController?, view: View?) {
+                uiController?.loopMainThreadForAtLeast(delay)
             }
         }
     }
