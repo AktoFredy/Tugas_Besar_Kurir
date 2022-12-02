@@ -54,7 +54,7 @@ class RegisterActivityTest {
             )
         )
         materialButton.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText = onView(
             allOf(
@@ -87,7 +87,7 @@ class RegisterActivityTest {
             )
         )
         materialButton2.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText2 = onView(
             allOf(
@@ -149,7 +149,7 @@ class RegisterActivityTest {
             )
         )
         materialButton3.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText5 = onView(
             allOf(
@@ -183,7 +183,7 @@ class RegisterActivityTest {
             )
         )
         materialButton4.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText6 = onView(
             allOf(
@@ -245,7 +245,7 @@ class RegisterActivityTest {
             )
         )
         materialButton5.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText9 = onView(
             allOf(
@@ -307,7 +307,7 @@ class RegisterActivityTest {
             )
         )
         materialButton6.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText12 = onView(
             allOf(
@@ -351,7 +351,7 @@ class RegisterActivityTest {
             )
         )
         materialButton7.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText14 = onView(
             allOf(
@@ -413,7 +413,7 @@ class RegisterActivityTest {
             )
         )
         materialButton8.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText17 = onView(
             allOf(
@@ -474,7 +474,7 @@ class RegisterActivityTest {
             )
         )
         materialButton11.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText19 = onView(
             allOf(
@@ -507,7 +507,7 @@ class RegisterActivityTest {
             )
         )
         materialButton12.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
 
 
         val textInputEditText20 = onView(
@@ -571,7 +571,7 @@ class RegisterActivityTest {
             )
         )
         materialButton13.perform(click())
-        //onView(isRoot()).perform(waitFor(3000))
+        onView(isRoot()).perform(waitFor(3000))
     }
 
     private fun childAtPosition(
@@ -588,6 +588,22 @@ class RegisterActivityTest {
                 val parent = view.parent
                 return parent is ViewGroup && parentMatcher.matches(parent)
                         && view == parent.getChildAt(position)
+            }
+        }
+    }
+
+    fun waitFor(delay: Long): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return isRoot()
+            }
+
+            override fun getDescription(): String {
+                return "wait for " + delay + "millisecods"
+            }
+
+            override fun perform(uiController: UiController?, view: View?) {
+                uiController?.loopMainThreadForAtLeast(delay)
             }
         }
     }
