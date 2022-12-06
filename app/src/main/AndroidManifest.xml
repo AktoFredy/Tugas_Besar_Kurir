@@ -16,6 +16,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+    <queries><package android:name="com.whatsapp"/> </queries>
 
     <application
         android:allowBackup="true"
@@ -50,16 +51,16 @@
             android:exported="false" />
         <activity
             android:name=".EditActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainMenuActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

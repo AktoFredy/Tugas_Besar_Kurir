@@ -11,26 +11,155 @@
         android:layout_height="match_parent"
         tools:context=".fragments.HelpFragment">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgTvDescript"
+            android:layout_width="match_parent"
+            android:layout_height="263dp"
+            android:src="@drawable/helppic"
+            android:padding="1px"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fadingEdge="vertical"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTvdescript"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="200dp"
+            android:textColor="@color/black"
+            android:padding="4dp"
+            android:fontFamily="@font/poppinsregular"
+            android:background="@drawable/recrouncorner_shape"
+            android:text="@string/deshelp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.502"/>
+
+        <LinearLayout
+            android:id="@+id/qatvText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textTvdescript">
+            <TextView
+                android:id="@+id/grp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:text="@string/qahelp"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/qa1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsregular"
+                android:text="@string/qa1"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:drawableTint="@color/primary"
+                app:drawableEndCompat="@drawable/morebigger"/>
+            <TextView
+                android:id="@+id/qa2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsregular"
+                android:text="@string/qa2"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:drawableTint="@color/primary"
+                app:drawableEndCompat="@drawable/morebigger" />
+            <TextView
+                android:id="@+id/qa3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsregular"
+                android:text="@string/qa3"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:drawableTint="@color/primary"
+                app:drawableEndCompat="@drawable/morebigger" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/wabtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:fontFamily="@font/poppinssemibold"
+                android:text="Chat Kami di WhatsApp"
+                android:textAlignment="textStart"
+                android:drawableStart="@drawable/waicon1"
+                android:drawablePadding="5dp"
+                android:background="@drawable/recrouncorner_shape"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="FAQ"
+                    android:drawableTop="@drawable/tanya1"
+                    android:background="@drawable/recrouncorner_shape"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/calus"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/calus"
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginStart="10dp"
+                    android:text="Call us"
+                    android:drawableTop="@drawable/calldirect1"
+                    android:background="@drawable/recrouncorner_shape"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:lottie_rawRes="@raw/nocontent"
+            android:layout_marginTop="30dp"
+            app:lottie_rawRes="@raw/delivery"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qatvText"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/Help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{helep}"
-            android:textSize="36sp"
-            app:layout_constraintTop_toBottomOf="@id/animationView2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+<!--        <TextView-->
+<!--            android:id="@+id/Help"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{helep}"-->
+<!--            android:textSize="36sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/animationView2"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
