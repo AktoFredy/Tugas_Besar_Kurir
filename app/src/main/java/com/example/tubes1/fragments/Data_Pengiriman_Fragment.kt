@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tubes1.MainActivity
-import com.example.tubes1.PengirimanData
-import com.example.tubes1.RVDummyAdapter
-import com.example.tubes1.ResponseDataPengiriman
+import com.example.tubes1.*
 import com.example.tubes1.client.server
 import com.example.tubes1.databinding.FragmentDataPengirimanBinding
 import com.example.tubes1.userSharedPreferences.PrefManager
@@ -84,7 +81,7 @@ class Data_Pengiriman_Fragment : Fragment() {
                 }else{
                     val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
                     Toast.makeText(context, "${jsonObj.getString("message")}", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(context, MainActivity::class.java))
+                    startActivity(Intent(context, MainMenuActivity::class.java))
                 }
             }
 

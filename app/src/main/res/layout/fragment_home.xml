@@ -105,7 +105,7 @@
                         android:id="@+id/cekHarga"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/cekharga"/>
+                        android:background="@mipmap/cekharga"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -16,7 +16,10 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <queries><package android:name="com.whatsapp"/> </queries>
+
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -29,6 +32,13 @@
         android:theme="@style/Theme.Tubes1"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".fragments.faq.AnswerFaqActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".PengirimanDetailsQRScannerActivity"
             android:exported="false">

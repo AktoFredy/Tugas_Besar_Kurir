@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.tubes1.R
 import com.example.tubes1.databinding.FragmentHelpBinding
+import com.example.tubes1.fragments.faq.FaqFragment
 
 class HelpFragment : Fragment() {
     private lateinit var binding: FragmentHelpBinding
@@ -56,6 +57,15 @@ class HelpFragment : Fragment() {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.setData(Uri.parse("tel:" + "+62" + noTlp))
             startActivity(intent)
+        }
+
+        binding.faqbtn.setOnClickListener {
+            val fragment = FaqFragment()
+            val fragmentManager = activity?.supportFragmentManager
+            val fragmentTransaction = fragmentManager!!.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
     }
 

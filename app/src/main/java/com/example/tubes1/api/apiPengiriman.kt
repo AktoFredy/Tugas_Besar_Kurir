@@ -4,6 +4,7 @@ import com.example.tubes1.ResponseCreate
 import com.example.tubes1.ResponseDataPengiriman
 import com.example.tubes1.ResponseDataUsers
 import com.example.tubes1.ResponseLogin
+import com.example.tubes1.fragments.faq.ResponseDataFaqs
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -97,4 +98,9 @@ interface apiPengiriman {
         @Part userfoto: MultipartBody.Part,
         @Part("_method") _method:RequestBody
     ):Call<ResponseCreate>
+
+    @GET("faq/{cari}")
+    fun getDataFAQ(
+        @Path("cari") cari:String? = null
+    ): Call<ResponseDataFaqs>
 }
