@@ -167,6 +167,9 @@ class ProfileFragment : Fragment() {
         builder.setTitle("Log Out")
         builder.setMessage("Are you sure want to exit?")
             .setPositiveButton("Yes"){ dialog, which ->
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
                 requireActivity().finishAndRemoveTask()
             }
             .show()

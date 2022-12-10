@@ -33,14 +33,9 @@ class PenerimaCRUDActivity : AppCompatActivity() {
         }
 
         binding.btnCreatePenerima.setOnClickListener {
-            createNewDataPenerima()
+            startActivity(Intent(this@PenerimaCRUDActivity, BioAuthenticationActivity::class.java)
+                .putExtra("intentCreatePenerima", 1))
         }
-    }
-
-    private fun createNewDataPenerima(){
-        startActivity(Intent(this@PenerimaCRUDActivity, EditPenerimaActivity::class.java)
-            .putExtra("intentCreatePenerima", 1)
-        )
     }
 
     private fun setItemListPenerima(){
