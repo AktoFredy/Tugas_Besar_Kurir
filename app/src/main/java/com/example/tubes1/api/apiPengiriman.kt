@@ -1,5 +1,7 @@
 package com.example.tubes1.api
 
+import com.example.tubes1.Kiriman.ResponseDataKiriman
+import com.example.tubes1.Penerima.ResponseDataPenerima
 import com.example.tubes1.ResponseCreate
 import com.example.tubes1.ResponseDataPengiriman
 import com.example.tubes1.ResponseDataUsers
@@ -99,8 +101,79 @@ interface apiPengiriman {
         @Part("_method") _method:RequestBody
     ):Call<ResponseCreate>
 
+    //FAQ
     @GET("faq/{cari}")
     fun getDataFAQ(
         @Path("cari") cari:String? = null
     ): Call<ResponseDataFaqs>
+
+    //KIRIMAN
+    @GET("kiriman/{cari}")
+    fun getDataKiriman(
+        @Header("Authorization") token_auth: String?,
+        @Path("cari") cari: String? = null,
+    ): Call<ResponseDataKiriman>
+
+    @FormUrlEncoded
+    @POST("kiriman")
+    fun createDataKiriman(
+        @Header("Authorization") token_auth: String?,
+        @Field("nama_barang") nama_barang:String?,
+        @Field("berat") berat:String?,
+        @Field("pecah_belah") pecah_belah:String?,
+        @Field("cover") cover:String?,
+        @Field("asuransi") asuransi:String?,
+    ): Call<ResponseCreate>
+
+    @FormUrlEncoded
+    @PUT("kiriman/{id_kiriman}")
+    fun updateDataKiriman(
+        @Header("Authorization") token_auth: String?,
+        @Path("id_kiriman") id_kiriman:Int?,
+        @Field("nama_barang") nama_barang:String?,
+        @Field("berat") berat:String?,
+        @Field("pecah_belah") pecah_belah:String?,
+        @Field("cover") cover:String?,
+        @Field("asuransi") asuransi:String?,
+    ): Call<ResponseCreate>
+
+    @DELETE("kiriman/{id_kiriman}")
+    fun deleteDataKiriman(
+        @Header("Authorization") token_auth: String?,
+        @Path("id_kiriman")id: Int?
+    ): Call<ResponseCreate>
+
+    //=========================|> PENERIMA
+    @GET("penerima/{cari}")
+    fun getDataPenerima(
+        @Header("Authorization") token_auth: String?,
+        @Path("cari") cari: String? = null,
+    ):Call<ResponseDataPenerima>
+
+    @FormUrlEncoded
+    @POST("penerima")
+    fun createDataPenerima(
+        @Header("Authorization") token_auth: String?,
+        @Field("nama_penerima") nama_penerima:String?,
+        @Field("no_hp") no_hp:String?,
+        @Field("gender") gender:String?,
+        @Field("kode_pos") kode_pos:String?,
+    ): Call<ResponseCreate>
+
+    @FormUrlEncoded
+    @PUT("penerima/{id_penerima}")
+    fun updateDataPenerima(
+        @Header("Authorization") token_auth: String?,
+        @Path("id_penerima") id_penerima:Int?,
+        @Field("nama_penerima") nama_penerima:String?,
+        @Field("no_hp") no_hp:String?,
+        @Field("gender") gender:String?,
+        @Field("kode_pos") kode_pos:String?,
+    ): Call<ResponseCreate>
+
+    @DELETE("penerima/{id_penerima}")
+    fun deleteDataPenerima(
+        @Header("Authorization") token_auth: String?,
+        @Path("id_penerima")id: Int?
+    ): Call<ResponseCreate>
 }

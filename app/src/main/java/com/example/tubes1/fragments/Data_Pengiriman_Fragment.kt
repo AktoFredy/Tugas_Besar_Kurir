@@ -80,8 +80,7 @@ class Data_Pengiriman_Fragment : Fragment() {
                     binding.progressBar.isVisible = false
                 }else{
                     val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
-                    Toast.makeText(context, "${jsonObj.getString("message")}", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(context, MainMenuActivity::class.java))
+                    Toast.makeText(context, "${jsonObj.getString("messages")}", Toast.LENGTH_LONG).show()
                 }
             }
 

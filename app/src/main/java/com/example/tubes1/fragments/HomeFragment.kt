@@ -1,5 +1,6 @@
 package com.example.tubes1.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,13 +9,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.tubes1.Kiriman.KirimanCRUDActivity
+import com.example.tubes1.Penerima.PenerimaCRUDActivity
 import com.example.tubes1.R
 import com.example.tubes1.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var view1: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,13 +28,11 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_home, container, false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        view1 = binding.root
-        binding.home = "HOME"
-        return view1
+        return binding.root
     }
 
     companion object {
@@ -49,5 +49,13 @@ class HomeFragment : Fragment() {
         imgList.add(SlideModel("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/pizza-banner-design-template-3f9ce3fbcc33ae4264b2067e7228e45f_screen.jpg"))
 
         binding.imgPromoSlider.setImageList(imgList, ScaleTypes.FIT)
+
+        binding.barangList.setOnClickListener {
+            startActivity(Intent(requireActivity(), KirimanCRUDActivity::class.java))
+        }
+
+        binding.penerimaList.setOnClickListener {
+            startActivity(Intent(requireActivity(), PenerimaCRUDActivity::class.java))
+        }
     }
 }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Penerima.PenerimaCRUDActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/titlePenerimaLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true">
+            <TextView
+                android:id="@+id/titleKirimanView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/ic_user_24"
+                android:drawableEnd="@drawable/ic_user_24"
+                android:text="List Penerima"
+                android:textAlignment="center"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:dividerThickness="2dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/searchboxPenerima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@id/titlePenerimaLy">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cari Penerima......"
+                android:layout_marginVertical="5dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_baseline_search"
+                tools:ignore="MissingConstraints">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_cariPenerima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:dividerThickness="2dp"/>
+        </LinearLayout>
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/midListItem"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="570dp"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:layout_marginHorizontal="20dp"-->
+        <!--            android:layout_marginTop="2dp"-->
+        <!--            android:layout_below="@id/searchbox">-->
+        <!--            <ScrollView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:fitsSystemWindows="true">-->
+        <!--                <androidx.recyclerview.widget.RecyclerView-->
+        <!--                    android:id="@+id/itemListKiriman"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    tools:itemCount="100"-->
+        <!--                    tools:listitem="@layout/rv_item_kiriman"/>-->
+        <!--            </ScrollView>-->
+        <!--        </LinearLayout>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragDataPenerima"
+            android:layout_width="match_parent"
+            android:layout_height="575dp"
+            android:layout_below="@id/searchboxPenerima"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="2dp"
+            tools:ignore="NotSibling"/>
+
+        <LinearLayout
+            android:id="@+id/dividerBottomPenerima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/fragDataPenerima"
+            android:layout_marginTop="4dp">
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerThickness="4dp"/>
+        </LinearLayout>
+
+        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--            android:id="@+id/btnAddKiriman"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_marginStart="20dp"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:layout_marginEnd="20dp"-->
+        <!--            android:layout_marginBottom="20dp"-->
+        <!--            android:outlineAmbientShadowColor="@color/primary"-->
+        <!--            android:src="@drawable/ic_person_add"-->
+        <!--            app:rippleColor="@color/primary" />-->
+        <com.nambimobile.widgets.efab.ExpandableFabLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.nambimobile.widgets.efab.Overlay
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:overlay_orientation="portrait"/>
+            <com.nambimobile.widgets.efab.ExpandableFab
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:backgroundTint="@color/primary"
+                android:layout_marginBottom="@dimen/efab_ui_margin_medium"
+                android:layout_marginEnd="@dimen/efab_ui_margin_medium"
+                android:layout_marginRight="@dimen/efab_ui_margin_medium"
+                app:efab_orientation="portrait"/>
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/btnCreatePenerima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:src="@drawable/ic_baseline_post_add"
+                app:fab_orientation="portrait"
+                app:label_text="New Penerima" />
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/btnBackMainmenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:src="@drawable/ic_home_24"
+                app:fab_orientation="portrait"
+                app:label_text="Back Home"/>
+        </com.nambimobile.widgets.efab.ExpandableFabLayout>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

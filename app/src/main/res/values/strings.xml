@@ -25,4 +25,12 @@
         <item>Bogor</item>
         <item>Bandung</item>
     </string-array>
+    <string-array name="falsetrue">
+        <item>Iya</item>
+        <item>Tidak</item>>
+    </string-array>
+    <string-array name="Gender">
+        <item>Pria</item>
+        <item>Wanita</item>>
+    </string-array>
 </resources>
