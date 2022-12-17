@@ -37,6 +37,11 @@ class PrefManager (var context: Context){
         editor.commit()
     }
 
+    fun setIdPdfUP(counter: Int){
+        editor.putInt("counterPDF", counter)
+        editor.commit()
+    }
+
     fun islogin():Boolean{
         return pref.getBoolean(IS_LOGIN, false)
     }
@@ -55,6 +60,10 @@ class PrefManager (var context: Context){
 
     fun getNoTelepon():String?{
         return pref.getString("noTelepon", "")
+    }
+
+    fun getPDFcounter():Int{
+        return pref.getInt("counterPDF", 0)
     }
 
     fun removeData(){

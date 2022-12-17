@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object server {
-    const val BASE_URL = "http://192.168.176.51/pi4-apipengiriman/public/"
+    const val BASE_URL = "http://192.168.20.51/pi4-apipengiriman/public/"
 
     val instances:apiPengiriman by lazy{
         val retrofit = Retrofit.Builder()

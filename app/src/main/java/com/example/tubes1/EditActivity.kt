@@ -12,6 +12,10 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.example.tubes1.Kiriman.KirimanData
+import com.example.tubes1.Kiriman.ResponseDataKiriman
+import com.example.tubes1.Penerima.PenerimaData
+import com.example.tubes1.Penerima.ResponseDataPenerima
 import com.example.tubes1.client.server
 import com.example.tubes1.databinding.ActivityEditBinding
 import com.example.tubes1.fragments.DeliveryFragment
@@ -47,8 +51,16 @@ class EditActivity : AppCompatActivity() {
     private var Biaya: Double = 0.00
     private var idPengiriman: Int = 0
     private lateinit var binding: ActivityEditBinding
-    private val listPengiriman = ArrayList<PengirimanData>()
     private lateinit var prefManager: PrefManager
+
+    //list data
+    private val listPengiriman = ArrayList<PengirimanData>()
+    private val listPenerima = ArrayList<PenerimaData>()
+    private val listKiriman = ArrayList<KirimanData>()
+
+    //array dropdown
+    private val arrayNamaPenerima = ArrayList<String>()
+    private val arrayNamaKiriman = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +77,17 @@ class EditActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        getList()
         val kotaPenerima = resources.getStringArray(R.array.kotaPenerima)
-        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, kotaPenerima)
-        binding.autoCompleteKotaPenerima.setAdapter(arrayAdapter)
-        binding.autoCompleteKotaPengirim.setAdapter(arrayAdapter)
+        val arrayAdapterKota = ArrayAdapter(this, R.layout.dropdown_item, kotaPenerima)
+        val arrayAdapterNamaPenerima = ArrayAdapter(this, R.layout.dropdown_item, arrayNamaPenerima)
+        val arrayAdapterNamaKiriman = ArrayAdapter(this, R.layout.dropdown_item, arrayNamaKiriman)
+
+        //set data to component
+        binding.autoCompleteKotaPenerima.setAdapter(arrayAdapterKota)
+        binding.autoCompleteKotaPengirim.setAdapter(arrayAdapterKota)
+        binding.autoCompleteNamaPenerima.setAdapter(arrayAdapterNamaPenerima)
+        binding.autoCompleteIsiKiriman.setAdapter(arrayAdapterNamaKiriman)
     }
 
     fun biayacost(){
@@ -210,13 +229,15 @@ class EditActivity : AppCompatActivity() {
         FileNotFoundException::class
     )
     private fun createPdf(namaPengirim: String, namaPenerima: String, desBarang: String, kotaAsal: String, kotaTujuan: String, alamatLengkap: String, biaya: Double) {
+        val counterPDF = prefManager.getPDFcounter()
+        val nameuserLOGIN = prefManager.getUsername()
         // ini berguna untuk akses writing ke storage hp kalian dalam model download
         //harus diketik jangan COPAS
-        var id = 1
+        var id = counterPDF + 1
         val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
         val file = File(pdfPath, "Pdforder" + id + ".pdf")
         FileOutputStream(file)
-        id++
+        prefManager.setIdPdfUP(id)
         //inisialisasi pembuatan PDF
         val writer = PdfWriter(file)
         val pdfDocument = PdfDocument(writer)
@@ -232,12 +253,14 @@ class EditActivity : AppCompatActivity() {
         val bitmapData = stream.toByteArray()
         val imageData = ImageDataFactory.create(bitmapData)
         val image = Image(imageData)
+        image.scaleToFit(300F, 300F).setRelativePosition(137F, 5F, 130F, 5F)
         val namaPengguna = Paragraph("Identitas Pengguna").setBold().setFontSize(24f)
             .setTextAlignment(TextAlignment.CENTER)
         val group = Paragraph(
             """
-                        Berikut adalah
-                        Nama Pengguna UAJY 2022/2023
+                        created by User: ${nameuserLOGIN}
+                        Universitas Atma Jaya Yogyakarta 2022/2023
+                        Fakultas Teknologi Industri
                         """.trimIndent()).setTextAlignment(TextAlignment.CENTER).setFontSize(12f)
 
         //proses pembuatan tabel
@@ -309,19 +332,19 @@ class EditActivity : AppCompatActivity() {
 
                     if (listPengiriman.size == 1){
                         binding.inputPengirim.getEditText()?.setText(listPengiriman[0].namaPengirim)
-                        binding.inputPenerima.getEditText()?.setText(listPengiriman[0].namaPenerima)
-                        binding.inputIsiKiriman.getEditText()?.setText(listPengiriman[0].desBarang)
-                        binding.inputKotaPengirim.autoCompleteKotaPengirim.setText(listPengiriman[0].kotaAsal, false)
-                        binding.inputKotaPenerima.autoCompleteKotaPenerima.setText(listPengiriman[0].kotaTujuan, false)
+                        binding.autoCompleteNamaPenerima.setText(listPengiriman[0].namaPenerima, false)
+                        binding.autoCompleteIsiKiriman.setText(listPengiriman[0].desBarang, false)
+                        binding.autoCompleteKotaPengirim.setText(listPengiriman[0].kotaAsal, false)
+                        binding.autoCompleteKotaPenerima.setText(listPengiriman[0].kotaTujuan, false)
                         binding.inputAlamatLengkap.getEditText()?.setText(listPengiriman[0].alamatLengkap)
                     }else{
                         for (i in listPengiriman){
                             if (i.idP == idPengiriman){
                                 binding.inputPengirim.getEditText()?.setText(i.namaPengirim)
-                                binding.inputPenerima.getEditText()?.setText(i.namaPenerima)
-                                binding.inputIsiKiriman.getEditText()?.setText(i.desBarang)
-                                binding.inputKotaPengirim.autoCompleteKotaPengirim.setText(i.kotaAsal, false)
-                                binding.inputKotaPenerima.autoCompleteKotaPenerima.setText(i.kotaTujuan, false)
+                                binding.autoCompleteNamaPenerima.setText(i.namaPenerima, false)
+                                binding.autoCompleteIsiKiriman.setText(i.desBarang, false)
+                                binding.autoCompleteKotaPengirim.setText(i.kotaAsal, false)
+                                binding.autoCompleteKotaPenerima.setText(i.kotaTujuan, false)
                                 binding.inputAlamatLengkap.getEditText()?.setText(i.alamatLengkap)
                             }
                         }
@@ -331,6 +354,52 @@ class EditActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseDataPengiriman>, t: Throwable) {}
         })
+    }
+
+    private fun getList(){
+        val token_auth = "Bearer ${prefManager.getToken()}"
+
+        server.instances.getDataPenerima(token_auth,"").enqueue(object : Callback<ResponseDataPenerima>{
+            override fun onResponse(
+                call: Call<ResponseDataPenerima>,
+                response: Response<ResponseDataPenerima>
+            ) {
+                if (response.isSuccessful){
+                    listPenerima.clear()
+                    response.body()?.let { listPenerima.addAll(it.data) }
+                    if (listPenerima.size > 0){
+                        arrayNamaPenerima.clear()
+                        for (item in listPenerima){
+                            arrayNamaPenerima.add(item.nama_penerima)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDataPenerima>, t: Throwable) {}
+        })
+
+        server.instances.getDataKiriman(token_auth, "").enqueue(object : Callback<ResponseDataKiriman>{
+            override fun onResponse(
+                call: Call<ResponseDataKiriman>,
+                response: Response<ResponseDataKiriman>
+            ) {
+                if (response.isSuccessful){
+                    listKiriman.clear()
+                    response.body()?.let { listKiriman.addAll(it.data) }
+                    if (listKiriman.size > 0){
+                        arrayNamaKiriman.clear()
+                        for (item in listKiriman){
+                            arrayNamaKiriman.add(item.namaBar)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDataKiriman>, t: Throwable) {
+            }
+        })
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
