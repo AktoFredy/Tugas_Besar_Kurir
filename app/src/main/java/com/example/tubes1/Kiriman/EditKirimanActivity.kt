@@ -10,6 +10,7 @@ import com.example.tubes1.ResponseCreate
 import com.example.tubes1.client.server
 import com.example.tubes1.databinding.ActivityEditKirimanBinding
 import com.example.tubes1.userSharedPreferences.PrefManager
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,18 +34,18 @@ class EditKirimanActivity : AppCompatActivity() {
         idKiriman = intent.getIntExtra("idKirimanEdit", -1)
         intentcreate = intent.getIntExtra("intentCreate", 0)
 
-        if (intentcreate == 0){
-            supportActionBar?.title = "EDIT KIRIMAN"
-            setData()
-
-            binding.SaveButon.setOnClickListener {
-                saveUpdate()
-            }
-
-            binding.CancelButon.setOnClickListener {
-                finish()
-            }
-        }else{
+//        if (intentcreate == 0){
+//            supportActionBar?.title = "EDIT KIRIMAN"
+//            setData()
+//
+//            binding.SaveButon.setOnClickListener {
+//                saveUpdate()
+//            }
+//
+//            binding.CancelButon.setOnClickListener {
+//                finish()
+//            }
+//        }else{
             supportActionBar?.title = "NEW KIRIMAN"
             binding.titleViewerKiriman.text = "New Data Kiriman"
             binding.SaveButon.setOnClickListener {
@@ -54,7 +55,7 @@ class EditKirimanActivity : AppCompatActivity() {
             binding.CancelButon.setOnClickListener {
                 finish()
             }
-        }
+        //}
     }
 
     override fun onResume() {
@@ -89,6 +90,49 @@ class EditKirimanActivity : AppCompatActivity() {
                     if (response.isSuccessful){
                         Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_LONG).show()
                         startActivity(Intent(this@EditKirimanActivity, KirimanCRUDActivity::class.java))
+                    }else{
+                        val json = JSONObject(response.errorBody()!!.charStream().readText())
+                        val errMsg = JSONObject(json.getString("message"))
+
+                        if (errMsg != null){
+                            if (errMsg.has("nama_barang")){
+                                binding.OutDBNamaBarangEdit.error = errMsg.getString("nama_barang")
+                            }else{
+                                binding.OutDBNamaBarangEdit.error = null
+                            }
+
+                            if (errMsg.has("berat")){
+                                binding.OutDBBeratEdit.error = errMsg.getString("berat")
+                            }else{
+                                binding.OutDBBeratEdit.error = null
+                            }
+
+                            if (errMsg.has("pecah_belah")){
+                                binding.OutDBPecahBelahEdit.error = errMsg.getString("pecah_belah")
+                            }else{
+                                binding.OutDBPecahBelahEdit.error = null
+                            }
+
+                            if (errMsg.has("cover")){
+                                binding.OutDBCoverEdit.error = errMsg.getString("cover")
+                            }else{
+                                binding.OutDBCoverEdit.error = null
+                            }
+
+                            if (errMsg.has("asuransi")){
+                                binding.OutDBAsuransiEdit.error = errMsg.getString("asuransi")
+                            }else{
+                                binding.OutDBAsuransiEdit.error = null
+                            }
+                        }
+
+                        if (pechb.isEmpty()){
+                            binding.OutDBPecahBelahEdit.error = "The pecah_belah field is required."
+                        }
+
+                        if (asuransi.isEmpty()){
+                            binding.OutDBAsuransiEdit.error = "The asuransi field is required."
+                        }
                     }
                 }
 

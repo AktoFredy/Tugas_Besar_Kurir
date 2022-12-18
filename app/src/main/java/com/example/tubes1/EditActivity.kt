@@ -133,10 +133,11 @@ class EditActivity : AppCompatActivity() {
                     ) {
                         if(response.isSuccessful){
                             //creating pdf file
-                            createPdf(namaPengirim, namaPenerima, desBarang, kotaAsal, kotaTujuan, alamatLengkap, Biaya)
+                            //createPdf(namaPengirim, namaPenerima, desBarang, kotaAsal, kotaTujuan, alamatLengkap, Biaya)
 
                             // finish saving to database
                             Toast.makeText(applicationContext,"${response.body()?.pesan}", Toast.LENGTH_LONG).show()
+                            startActivity(Intent(this@EditActivity, MainMenuActivity::class.java))
                             finish()
                         }else{
                             val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())

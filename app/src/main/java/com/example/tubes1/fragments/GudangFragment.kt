@@ -1,6 +1,10 @@
 package com.example.tubes1.fragments
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.LocationManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
@@ -8,8 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.graphics.toColor
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import com.example.tubes1.CustomInfoWindow
+import com.example.tubes1.LocationOverlay
 import com.example.tubes1.ModelMain
 import com.example.tubes1.R
 import com.example.tubes1.databinding.FragmentGudangBinding
@@ -29,6 +36,7 @@ class GudangFragment : Fragment() {
     var modelMainList: MutableList<ModelMain> = ArrayList()
     lateinit var mapController: MapController
     lateinit var overlayItem: ArrayList<OverlayItem>
+    private val REQUEST_LOCATION_PERMISSION = 1
 
     //view binding
     private var _binding: FragmentGudangBinding? = null
@@ -52,6 +60,32 @@ class GudangFragment : Fragment() {
 
         // main oncreate
         startApp()
+
+        binding.btnMyLocation.setOnClickListener{
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                // Request location permission
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION)
+            }
+
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION)
+            }
+
+            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+            val lastknownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+            if (lastknownLocation != null){
+                val geoPoint = GeoPoint(lastknownLocation.latitude, lastknownLocation.longitude)
+                val overlay = LocationOverlay(requireContext())
+                binding.mapView.controller.setCenter(geoPoint)
+                binding.mapView.overlays.add(overlay)
+            }
+        }
 
         return view
     }

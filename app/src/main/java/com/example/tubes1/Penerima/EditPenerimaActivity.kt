@@ -10,6 +10,7 @@ import com.example.tubes1.ResponseCreate
 import com.example.tubes1.client.server
 import com.example.tubes1.databinding.ActivityEditPenerimaBinding
 import com.example.tubes1.userSharedPreferences.PrefManager
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +21,7 @@ class EditPenerimaActivity : AppCompatActivity() {
     private lateinit var prefManager: PrefManager
     private var idPenerima: Int = -1
     private var intentCreate: Int = 0
-    private var statGen = 0
+    private var statGen: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +33,18 @@ class EditPenerimaActivity : AppCompatActivity() {
         idPenerima = intent.getIntExtra("idPenerimaEdit", -1)
         intentCreate = intent.getIntExtra("intentCreatePenerima", 0)
 
-        if (intentCreate == 0){
-            supportActionBar?.title = "EDIT DATA PENERIMA"
-            setDataPenerima()
-
-            binding.SaveButonPenerima.setOnClickListener {
-                saveUpdatePenerima()
-            }
-
-            binding.CancelButonPenerima.setOnClickListener {
-                finish()
-            }
-        }else{
+//        if (intentCreate == 0){
+//            supportActionBar?.title = "EDIT DATA PENERIMA"
+//            setDataPenerima()
+//
+//            binding.SaveButonPenerima.setOnClickListener {
+//                saveUpdatePenerima()
+//            }
+//
+//            binding.CancelButonPenerima.setOnClickListener {
+//                finish()
+//            }
+//        }else{
             supportActionBar?.title = "NEW DATA PENERIMA"
             binding.titleEditViewerPenerima.text = "New Data Penerima"
 
@@ -54,7 +55,7 @@ class EditPenerimaActivity : AppCompatActivity() {
             binding.CancelButonPenerima.setOnClickListener {
                 finish()
             }
-        }
+       // }
     }
 
     override fun onResume() {
@@ -73,6 +74,10 @@ class EditPenerimaActivity : AppCompatActivity() {
             val gender = OutDBGenderEdit.text.toString()
             if (gender == "Pria" || gender == "Laki-Laki"){
                 statGen = 1
+            }else if (gender == "Wanita" || gender == "Perempuan"){
+                statGen = 0
+            }else{
+                statGen = null
             }
             val kode_pos = OutDBKodePosEdit.text.toString()
 
@@ -84,6 +89,37 @@ class EditPenerimaActivity : AppCompatActivity() {
                     if (response.isSuccessful){
                         Toast.makeText(applicationContext, "${response.body()?.pesan}", Toast.LENGTH_LONG).show()
                         startActivity(Intent(this@EditPenerimaActivity, PenerimaCRUDActivity::class.java))
+                    }else{
+                        val jsonobj = JSONObject(response.errorBody()!!.charStream().readText())
+                        val errMsg = JSONObject(jsonobj.getString("message"))
+
+                        if (errMsg.has("nama_penerima")){
+                            binding.OutDBNamaPenerimaEdit.error = errMsg.getString("nama_penerima")
+                        }else{
+                            binding.OutDBNamaPenerimaEdit.error = null
+                        }
+
+                        if (errMsg.has("no_hp")){
+                            binding.OutDBNoHpEdit.error = errMsg.getString("no_hp")
+                        }else{
+                            binding.OutDBNoHpEdit.error = null
+                        }
+
+                        if (errMsg.has("gender")){
+                            binding.OutDBGenderEdit.error = errMsg.getString("gender")
+                        }else{
+                            binding.OutDBGenderEdit.error = null
+                        }
+
+                        if (gender.isEmpty()){
+                            binding.OutDBGenderEdit.error = "The gender field is required."
+                        }
+
+                        if (errMsg.has("kode_pos")){
+                            binding.OutDBKodePosEdit.error = errMsg.getString("kode_pos")
+                        }else{
+                            binding.OutDBKodePosEdit.error = null
+                        }
                     }
                 }
 

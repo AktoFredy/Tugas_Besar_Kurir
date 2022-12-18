@@ -189,21 +189,6 @@ class EditActivityTest {
         )
         materialAutoCompleteTextView.perform(click())
 
-        val materialAutoCompleteTextView2 = onView(
-            allOf(
-                withId(R.id.autoCompleteKotaPenerima),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.input_kota_penerima),
-                        0
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        materialAutoCompleteTextView2.perform(click())
-
         val materialButton5 = onView(
             allOf(
                 withId(R.id.btnSave), withText("Save"),
@@ -220,9 +205,39 @@ class EditActivityTest {
         materialButton5.perform(click())
         onView(isRoot()).perform(waitFor(3000))
 
+        val materialAutoCompleteTextView2 = onView(
+            allOf(
+                withId(R.id.autoCompleteKotaPenerima),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.input_kota_penerima),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        materialAutoCompleteTextView2.perform(click())
+        val materialButton10 = onView(
+            allOf(
+                withId(R.id.btnSave), withText("Save"),
+                childAtPosition(
+                    childAtPosition(
+                        withClassName(`is`("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0
+                    ),
+                    1
+                ),
+                isDisplayed()
+            )
+        )
+        materialButton10.perform(click())
+        onView(isRoot()).perform(waitFor(3000))
+
         val textInputEditText6 = onView(
             allOf(
-                withId(R.id.tglEdt),
+                withId(R.id.autoCompleteIsiKiriman),
                 childAtPosition(
                     childAtPosition(
                         withId(R.id.input_isiKiriman),

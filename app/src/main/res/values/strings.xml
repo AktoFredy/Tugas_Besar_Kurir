@@ -31,6 +31,8 @@
     </string-array>
     <string-array name="Gender">
         <item>Pria</item>
-        <item>Wanita</item>>
+        <item>Laki-laki</item>
+        <item>Wanita</item>
+        <item>Perempuan</item>
     </string-array>
 </resources>
