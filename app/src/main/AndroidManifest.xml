@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".Penerima.EditPenerimaActivity"
-            android:exported="true">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -60,7 +60,7 @@
         </activity>
         <activity
             android:name=".Kiriman.EditKirimanActivity"
-            android:exported="true">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

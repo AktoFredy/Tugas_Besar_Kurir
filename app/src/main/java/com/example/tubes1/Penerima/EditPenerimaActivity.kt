@@ -33,18 +33,18 @@ class EditPenerimaActivity : AppCompatActivity() {
         idPenerima = intent.getIntExtra("idPenerimaEdit", -1)
         intentCreate = intent.getIntExtra("intentCreatePenerima", 0)
 
-//        if (intentCreate == 0){
-//            supportActionBar?.title = "EDIT DATA PENERIMA"
-//            setDataPenerima()
-//
-//            binding.SaveButonPenerima.setOnClickListener {
-//                saveUpdatePenerima()
-//            }
-//
-//            binding.CancelButonPenerima.setOnClickListener {
-//                finish()
-//            }
-//        }else{
+        if (intentCreate == 0){
+            supportActionBar?.title = "EDIT DATA PENERIMA"
+            setDataPenerima()
+
+            binding.SaveButonPenerima.setOnClickListener {
+                saveUpdatePenerima()
+            }
+
+            binding.CancelButonPenerima.setOnClickListener {
+                finish()
+            }
+        }else{
             supportActionBar?.title = "NEW DATA PENERIMA"
             binding.titleEditViewerPenerima.text = "New Data Penerima"
 
@@ -55,7 +55,7 @@ class EditPenerimaActivity : AppCompatActivity() {
             binding.CancelButonPenerima.setOnClickListener {
                 finish()
             }
-       // }
+        }
     }
 
     override fun onResume() {

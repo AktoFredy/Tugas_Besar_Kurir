@@ -34,18 +34,18 @@ class EditKirimanActivity : AppCompatActivity() {
         idKiriman = intent.getIntExtra("idKirimanEdit", -1)
         intentcreate = intent.getIntExtra("intentCreate", 0)
 
-//        if (intentcreate == 0){
-//            supportActionBar?.title = "EDIT KIRIMAN"
-//            setData()
-//
-//            binding.SaveButon.setOnClickListener {
-//                saveUpdate()
-//            }
-//
-//            binding.CancelButon.setOnClickListener {
-//                finish()
-//            }
-//        }else{
+        if (intentcreate == 0){
+            supportActionBar?.title = "EDIT KIRIMAN"
+            setData()
+
+            binding.SaveButon.setOnClickListener {
+                saveUpdate()
+            }
+
+            binding.CancelButon.setOnClickListener {
+                finish()
+            }
+        }else{
             supportActionBar?.title = "NEW KIRIMAN"
             binding.titleViewerKiriman.text = "New Data Kiriman"
             binding.SaveButon.setOnClickListener {
@@ -55,7 +55,7 @@ class EditKirimanActivity : AppCompatActivity() {
             binding.CancelButon.setOnClickListener {
                 finish()
             }
-        //}
+        }
     }
 
     override fun onResume() {
